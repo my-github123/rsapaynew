@@ -5,10 +5,10 @@ dotenv.config();
 
 const sequelize = require("./src/config/db");
 
-const userRoutes = require("./src/routes/userRoutes");
-const videoRoutes = require("./src/routes/videoRoutes");
-const dashboardRoutes = require("./src/routes/dashboardRoutes");
-const videoInteraction = require("./src/routes/videoInterAction");
+// const userRoutes = require("./src/routes/userRoutes");
+// const videoRoutes = require("./src/routes/videoRoutes");
+// const dashboardRoutes = require("./src/routes/dashboardRoutes");
+// const videoInteraction = require("./src/routes/videoInterAction");
 
 const app = express();
 
@@ -22,12 +22,12 @@ sequelize
   .catch((e) => {
     console.error("Unable to connect to the database:", e);
   });
-
+console.log("Rajom");
 // Routes
-app.use("/api/users", userRoutes);
-app.use("/api/users", dashboardRoutes);
-app.use("/api/users", videoRoutes);
-app.use("/api/users", videoInteraction);
+// app.use("/api/users", userRoutes);
+// app.use("/api/users", dashboardRoutes);
+// app.use("/api/users", videoRoutes);
+// app.use("/api/users", videoInteraction);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
