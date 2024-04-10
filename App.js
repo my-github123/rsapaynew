@@ -22,7 +22,7 @@ sequelize
   .catch((e) => {
     console.error("Unable to connect to the database:", e);
   });
-console.log("Rajom");
+
 // Routes
 // app.use("/api/users", userRoutes);
 // app.use("/api/users", dashboardRoutes);
