@@ -23,7 +23,6 @@ sequelize
     console.error("Unable to connect to the database:", e);
   });
 
-console.log("rahim");
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/users", dashboardRoutes);
