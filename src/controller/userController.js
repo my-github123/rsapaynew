@@ -33,7 +33,6 @@ exports.loginUser = async (req, res) => {
     const { username, password } = req.body;
 
     const user = await User.findOne({ where: { username } });
-    console.log("User:", user);
 
     if (!user) {
       console.log("User not found");
@@ -43,6 +42,13 @@ exports.loginUser = async (req, res) => {
     }
 
     const passwordMatch = user.password === password;
+
+    console.log(
+      username,
+      user.password,
+      password,
+      "PASSWORD IS THERE.............."
+    );
 
     if (!passwordMatch) {
       return res
