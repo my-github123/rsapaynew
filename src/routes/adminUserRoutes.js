@@ -1,13 +1,12 @@
-// routes/userRoutes.js
+//routes/adminUserRoutes.js
 const express = require("express");
 const router = express.Router();
-const userController = require("../controller/userController");
+const adminUserController = require("../controller/adminUserController");
 const authMiddleware = require("../middleware/authMiddleware");
 
 // router.post("/register", userController.registerUser);
-router.post("/login", userController.loginUser);
-router.get("/getGarages",userController.getGarageDetails);
-router.get("/getUsers", userController.getAllUsers);
+router.post("/loginAdminUser", adminUserController.loginAdminUser);
+router.get("/getAllAdminUsers", adminUserController.getAllAdminUsers);
 // router.post("/mapVideos", userController.mapVideoToGarage);
 // router.put('/update', authMiddleware.verifyToken, userController.updateUser);
 // router.get('/getuser', authMiddleware.verifyToken, userController.getUserDetails);

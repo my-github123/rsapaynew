@@ -1,38 +1,38 @@
 const jwt = require("jsonwebtoken");
-const User = require("../model/User");
+const AdminUser = require("../model/adminUser");
 const bcrypt = require("bcrypt");
 
-exports.registerUser = async (req, res) => {
-  try {
-    const { username, email, password, phoneNumber, address } = req.body;
-    console.log(req.body, "BODY IS THERE....");
+// exports.registerUser = async (req, res) => {
+//   try {
+//     const { username, email, password, phoneNumber, address } = req.body;
+//     console.log(req.body, "BODY IS THERE....");
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+//     // Hash the password
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      phoneNumber,
-      address,
-    });
+//     const newUser = new User({
+//       username,
+//       email,
+//       password: hashedPassword,
+//       phoneNumber,
+//       address,
+//     });
 
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+//     const savedUser = await newUser.save();
+//     res.status(201).json(savedUser);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
-exports.loginUser = async (req, res) => {
+exports.loginAdminUser = async (req, res) => {
   try {
     console.log("Request body:", req.body);
 
     const { username, password } = req.body;
 
-    const user = await User.findOne({ where: { username } });
+    const user = await AdminUser.findOne({ where: { username } });
 
     if (!user) {
       console.log("User not found");
@@ -68,9 +68,9 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.getAllUsernames = async (req, res) => {
+exports.getAllAdminUsernames = async (req, res) => {
   try {
-    const users = await User.findAll({ attributes: ["username"] });
+    const users = await AdminUser.findAll({ attributes: ["username"] });
 
     if (!users) {
       return res.status(404).json({ error: "No users found" });
@@ -84,9 +84,9 @@ exports.getAllUsernames = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllAdminUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await AdminUser.findAll();
 
     if (!users) {
       return res.status(404).json({ error: "No users found" });
@@ -99,52 +99,52 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
-  try {
-    const userId = req.user; // Retrieved from the JWT verification middleware
-    const updates = req.body;
+// exports.updateUser = async (req, res) => {
+//   try {
+//     const userId = req.user; // Retrieved from the JWT verification middleware
+//     const updates = req.body;
 
-    // If the request includes a password, hash it
-    if (updates.password) {
-      const salt = await bcrypt.genSalt(10);
-      updates.password = await bcrypt.hash(updates.password, salt);
-    }
+//     // If the request includes a password, hash it
+//     if (updates.password) {
+//       const salt = await bcrypt.genSalt(10);
+//       updates.password = await bcrypt.hash(updates.password, salt);
+//     }
 
-    const allowedUpdates = [
-      "firstName",
-      "lastName",
-      "email",
-      "password",
-      "phoneNumber",
-      "country",
-    ];
-    const isValidUpdate = Object.keys(updates).every((update) =>
-      allowedUpdates.includes(update)
-    );
+//     const allowedUpdates = [
+//       "firstName",
+//       "lastName",
+//       "email",
+//       "password",
+//       "phoneNumber",
+//       "country",
+//     ];
+//     const isValidUpdate = Object.keys(updates).every((update) =>
+//       allowedUpdates.includes(update)
+//     );
 
-    if (!isValidUpdate) {
-      return res.status(400).json({ error: "Invalid update fields" });
-    }
+//     if (!isValidUpdate) {
+//       return res.status(400).json({ error: "Invalid update fields" });
+//     }
 
-    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
-      new: true,
-    });
+//     const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+//       new: true,
+//     });
 
-    if (!updatedUser) {
-      return res.status(404).json({ error: "User not found" });
-    }
+//     if (!updatedUser) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
 
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+//     res.json(updatedUser);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
-exports.deleteUser = async (req, res) => {
+exports.deleteAdminUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const deletedUser = await AdminUser.findByIdAndDelete(userId);
 
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -156,11 +156,11 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.getUserDetails = async (req, res) => {
+exports.getAdminUserDetailsByID = async (req, res) => {
   try {
     const userId = req.user; // Retrieved from the JWT verification middleware
 
-    const user = await User.findById(userId).select("-password");
+    const user = await AdminUser.findById(userId).select("-password");
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -172,17 +172,17 @@ exports.getUserDetails = async (req, res) => {
   }
 };
 
-exports.getGarageDetails = async (req, res) => {
-  try {
-    const garages = await User.findAll({
-      attributes: ['garageName', 'garageId', 'userId']
-    });
-    res.json(garages);
-  } catch (error) {
-    console.error('Error executing Sequelize query:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
+// exports.getGarageDetails = async (req, res) => {
+//   try {
+//     const garages = await User.findAll({
+//       attributes: ['garageName', 'garageId', 'userId']
+//     });
+//     res.json(garages);
+//   } catch (error) {
+//     console.error('Error executing Sequelize query:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
 
 // exports.mapVideoToGarage = async (req, res) => {
 //   try {

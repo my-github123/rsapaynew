@@ -68,3 +68,25 @@ exports.getVideosByUserId = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
+  try {
+    const bulkInsertData = [];
+
+    for (const garageId of selectedGarages) {
+      for (const videoUrl of selectedVideos) {
+        const videoData = {
+          userId: garageId,
+          VideoUrl: videoUrl,
+        };
+        bulkInsertData.push(videoData);
+      }
+    }
+    await Post.bulkCreate(bulkInsertData);
+
+    return { success: true, message: 'Videos inserted to garages successfully' };
+  } catch (error) {
+    console.error('Error inserting videos to garages:', error);
+    return { success: false, error: 'An error occurred while inserting videos to garages' };
+  }
+};
