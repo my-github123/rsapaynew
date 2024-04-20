@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 const bcrypt = require("bcrypt");
+const { Sequelize } = require('sequelize');
 
 exports.registerUser = async (req, res) => {
   try {
@@ -175,7 +176,12 @@ exports.getUserDetails = async (req, res) => {
 exports.getGarageDetails = async (req, res) => {
   try {
     const garages = await User.findAll({
-      attributes: ['garageName', 'garageId', 'userId']
+      attributes: ['garageName', 'garageId', 'userId'],
+      where: {
+        designation: {
+          [Sequelize.Op.not]: 'Admin'
+        }
+      }
     });
     res.json(garages);
   } catch (error) {
@@ -203,3 +209,50 @@ exports.getGarageDetails = async (req, res) => {
 //     res.status(500).json({ error: 'An error occurred while mapping videos to garages' });
 //   }
 // };
+
+exports.loginUserByRole = async (req, res) => {
+  try {
+    console.log("Request body:", req.body);
+
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ 
+      where: { 
+        username,
+        designation: 'Admin' 
+      } 
+    });
+
+    if (!user) {
+      console.log("User not found");
+      return res
+        .status(401)
+        .json({ error: "Invalid username or password from user" });
+    }
+
+    const passwordMatch = user.password === password;
+
+    console.log(
+      username,
+      user.password,
+      password,
+      "PASSWORD IS THERE.............."
+    );
+
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ error: "Invalid username or password from password" });
+    }
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1000y",
+    });
+    console.log("Login successful");
+
+    res.json({ message: "Login successful", token, user });
+  } catch (error) {
+    console.error("Error from userContoller:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
