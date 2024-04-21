@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const AdminVideo = sequelize.define("AdminVideosList", {
+const AdminVideo = sequelize.define("AdminVideosLists", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,19 +11,20 @@ const AdminVideo = sequelize.define("AdminVideosList", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  Title: {
+  name: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  Description: {
+  description: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  VideoUrl: {
+  url: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  Date: {
+    // defaultValue: ''
+  },  
+  date: {
     type: DataTypes.DATE,
     allowNull: true,
   },

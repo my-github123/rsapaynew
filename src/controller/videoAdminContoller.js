@@ -2,14 +2,14 @@ const AdminVideo = require("../model/VideoAdminModel");
 
 exports.createAdminPost = async (req, res) => {
   try {
-    const { adminUserId, videoUrl, title, description, currentDateTime } = req.body;
+    const { adminUserId, url, name, description, date } = req.body;
     // const videoURL = req.file.path;
     const newPost = await AdminVideo.create({
       adminUserId,
-      videoUrl,
-      title,
+      url,
+      name,
       description,
-      currentDateTime,
+      date,
     });
 
     res.status(201).json(newPost);

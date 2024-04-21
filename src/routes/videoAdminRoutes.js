@@ -7,7 +7,7 @@ router.post(
   "/postVideos",videoAdminController.createAdminPost
 );
 
-router.get("/getVideos/:adminUserId", videoAdminController.getVideosByAdminId);
+router.get("/getAdminVideos/:adminUserId", videoAdminController.getVideosByAdminId);
 // router.post("/mapVideo",videoController.insertVideosToGarages)
 
 module.exports = router;
