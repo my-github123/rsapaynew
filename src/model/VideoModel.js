@@ -8,19 +8,21 @@ const Post = sequelize.define("VideosList", {
   },
   videoId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    // allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
   },
   Title: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   TumbNailImage: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Description: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   VideoUrl: {
     type: DataTypes.STRING,
@@ -28,24 +30,24 @@ const Post = sequelize.define("VideosList", {
   },
   isLiked: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    allowNull: true,
   },
   Comment: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   commentCount: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   likeCount: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   Date: {
     // Add this line to define the Date column
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
 });
 
