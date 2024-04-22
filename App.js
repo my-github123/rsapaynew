@@ -11,7 +11,7 @@ const videoRoutes = require("./src/routes/videoRoutes");
 const dashboardRoutes = require("./src/routes/dashboardRoutes");
 const videoInteraction = require("./src/routes/videoInterAction");
 const adminVideoRoutes = require("./src/routes/videoAdminRoutes")
-// const GCPUploadRoutes = require("./src/routes/GCPVideoUpload")
+const GCPUploadRoutes = require("./src/routes/uploadVideoRoutes")
 // const uploadToServer =require("./src/routes/uploadToServer")
 const app = express();
 
@@ -35,7 +35,7 @@ app.use("/api/users", dashboardRoutes);
 app.use("/api/users", videoRoutes);
 app.use("/api/users", videoInteraction);
 app.use("/api/users", adminVideoRoutes);
-// app.use("/api/users", GCPUploadRoutes);
+app.use("/api/users", GCPUploadRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 3000;
