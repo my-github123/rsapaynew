@@ -74,14 +74,18 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
     const bulkInsertData = [];
 
     for (const garageId of selectedGarages) {
-      for (const videoUrl of selectedVideos) {
+      for (const video of selectedVideos) {
         const videoData = {
           userId: garageId,
-          VideoUrl: videoUrl,
+          videoId: video.id,
+          VideoUrl: video.url,
+          Title: video.name,
+          Description: video.description
         };
         bulkInsertData.push(videoData);
       }
     }
+
     await Post.bulkCreate(bulkInsertData);
 
     return { success: true, message: 'Videos inserted to garages successfully' };
@@ -90,3 +94,4 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
     return { success: false, error: 'An error occurred while inserting videos to garages' };
   }
 };
+

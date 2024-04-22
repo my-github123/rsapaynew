@@ -22,7 +22,6 @@ const AdminVideo = sequelize.define("AdminVideosLists", {
   url: {
     type: DataTypes.STRING,
     allowNull: false,
-    // defaultValue: ''
   },  
   date: {
     type: DataTypes.DATE,
