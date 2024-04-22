@@ -212,7 +212,7 @@ exports.loginUserByRole = async (req, res) => {
     const user = await User.findOne({ 
       where: { 
         username,
-        designation: 'Admin' 
+        role: 'Admin' 
       } 
     });
 
