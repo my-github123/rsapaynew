@@ -43,13 +43,6 @@ exports.loginUser = async (req, res) => {
 
     const passwordMatch = user.password === password;
 
-    console.log(
-      username,
-      user.password,
-      password,
-      "PASSWORD IS THERE.............."
-    );
-
     if (!passwordMatch) {
       return res
         .status(401)

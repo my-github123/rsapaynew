@@ -65,6 +65,14 @@ const User = sequelize.define("usersList", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  fromApp: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   sdkVersion: {
     type: DataTypes.STRING,
     allowNull: false,
