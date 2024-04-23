@@ -1,7 +1,7 @@
 const { Storage } = require('@google-cloud/storage');
 const multer = require('multer');
 const path = require('path');
-
+const fs = require('fs');
 const storage = new Storage({
     keyFilename: path.join(__dirname, '../../prj-stag-gobumpr-service-6567-86059d44965a.json'),
     projectId: 'prj-stag-gobumpr-service-6567',
