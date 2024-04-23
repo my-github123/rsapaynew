@@ -38,7 +38,7 @@ app.use("/api/users", adminVideoRoutes);
 app.use("/api/users", GCPUploadRoutes);
 // app.use("/api/users", uploadToServer);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8443;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
