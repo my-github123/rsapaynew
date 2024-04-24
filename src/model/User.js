@@ -20,7 +20,7 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  state: {
+  district: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -32,7 +32,7 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  district: {
+  address: {
     type: DataTypes.STRING,
     allowNull: false,
   },

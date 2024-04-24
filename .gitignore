@@ -22,3 +22,6 @@ Thumbs.db
 ehthumbs.db
 Icon?
 ._*
+
+# Ignore service account JSON file
+prj-stag-gobumpr-service-6567-86059d44965a.json

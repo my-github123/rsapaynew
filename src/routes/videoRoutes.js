@@ -36,5 +36,15 @@ router.post(
 );
 
 router.get("/getVideos/:userId", videoController.getVideosByUserId);
-
+// router.post("/mapVideo",videoController.insertVideosToGarages)
+router.post('/insertVideosToGarages', async (req, res) => {
+  try {
+    const { selectedGarages, selectedVideos } = req.body;
+    const result = await videoController.insertVideosToGarages(selectedGarages, selectedVideos);
+    res.json(result);
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
 module.exports = router;
