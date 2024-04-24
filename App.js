@@ -29,7 +29,7 @@ app.use("/api/users", dashboardRoutes);
 app.use("/api/users", videoRoutes);
 app.use("/api/users", videoInteraction);
 
-const PORT = process.env.PORT || 8443;
+const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
