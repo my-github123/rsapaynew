@@ -30,12 +30,12 @@ sequelize
   });
 
 // Routes
-app.use("/rsa-trg/api/users", userRoutes);
-app.use("/rsa-trg/api/users", dashboardRoutes);
-app.use("/rsa-trg/api/users", videoRoutes);
-app.use("/rsa-trg/api/users", videoInteraction);
-app.use("/rsa-trg/api/users", adminVideoRoutes);
-app.use("/rsa-trg/api/users", GCPUploadRoutes);
+app.use("/rsa-trg", userRoutes);
+app.use("/rsa-trg", dashboardRoutes);
+app.use("/rsa-trg", videoRoutes);
+app.use("/rsa-trg", videoInteraction);
+app.use("/rsa-trg", adminVideoRoutes);
+app.use("/rsa-trg", GCPUploadRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;
