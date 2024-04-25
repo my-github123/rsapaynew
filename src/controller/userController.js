@@ -171,7 +171,7 @@ exports.getGarageDetails = async (req, res) => {
     const garages = await User.findAll({
       attributes: ['garageName', 'garageId', 'userId'],
       where: {
-        designation: {
+        role: {
           [Sequelize.Op.not]: 'Admin'
         }
       }
