@@ -1,16 +1,27 @@
 const Like = require("../model/Like");
 const sequelize = require("../config/db");
+const Post = require("../model/VideoModel");
+const User = require("../model/VideoModel");
 
 exports.handleLikePost = async (req, res) => {
   try {
     const { userId, videoId, count } = req.body;
-    let like = await Like.findOne({ where: { userId, videoId } });
+    let like;
 
-    if (like) {
-      // If like entry exists, update the count by adding the new count
-      like.count += count;
-      await like.save();
+    if (count === 0) {
+      // If count is zero, allow duplicate users
+      like = await Like.create({ userId, videoId, count });
     } else {
+      // If count is not zero, check if user has already liked the video
+      like = await Like.findOne({ where: { userId, videoId } });
+
+      if (like) {
+        // If like entry exists, return a message indicating it was not updated
+        return res.json({
+          message: "Like count was not updated. Duplicate user ID.",
+        });
+      }
+
       // If like entry does not exist, create a new entry
       like = await Like.create({ userId, videoId, count });
     }
@@ -44,10 +55,11 @@ exports.getAllLikeCounts = async (req, res) => {
   try {
     const likeCounts = await Like.findAll({
       attributes: [
+        "userId",
         "videoId",
         [sequelize.fn("sum", sequelize.col("count")), "totalLikes"],
       ],
-      group: ["videoId"],
+      group: ["userId", "videoId"],
     });
 
     res.json(likeCounts);
@@ -56,3 +68,28 @@ exports.getAllLikeCounts = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// Controller method to get like counts for all videos
+// exports.getAllLikeCounts = async (req, res) => {
+//   try {
+//     const likeCounts = await Like.findAll({
+//       attributes: [
+//         "videoId",
+//         [sequelize.fn("sum", sequelize.col("count")), "totalLikes"],
+//       ],
+//       group: ["videoId"],
+//       include: [
+//         {
+//           model: User,
+//           attributes: ["VideoUrl"],
+//           as: "video",
+//         },
+//       ],
+//     });
+
+//     res.json(likeCounts);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };

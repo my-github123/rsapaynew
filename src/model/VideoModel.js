@@ -51,4 +51,11 @@ const Post = sequelize.define("VideosList", {
   },
 });
 
+Post.associate = (models) => {
+  Post.hasMany(models.Like, {
+    foreignKey: "videoId",
+    as: "likes",
+  });
+};
+
 module.exports = Post;
