@@ -1,4 +1,5 @@
 const Like = require("../model/Like");
+const sequelize = require("../config/db");
 
 exports.handleLikePost = async (req, res) => {
   try {
@@ -36,4 +37,22 @@ exports.getLikeCount = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
   console.log("rahim");
+};
+
+// Controller method to get like counts for all videos
+exports.getAllLikeCounts = async (req, res) => {
+  try {
+    const likeCounts = await Like.findAll({
+      attributes: [
+        "videoId",
+        [sequelize.fn("sum", sequelize.col("count")), "totalLikes"],
+      ],
+      group: ["videoId"],
+    });
+
+    res.json(likeCounts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
