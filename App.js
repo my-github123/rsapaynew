@@ -31,14 +31,15 @@ sequelize
   });
 
 // Routes
-app.use("/api/users", userRoutes);
-app.use("/api/users", dashboardRoutes);
-app.use("/api/users", videoRoutes);
-app.use("/api/users", videoInteraction);
-app.use("/api/users", adminVideoRoutes);
-app.use("/api/users", GCPUploadRoutes);
-app.use("/api/users", likeRoutes);
-app.use("/api/users", uploadToServer);
+
+app.use("/rsa-trg", userRoutes);
+app.use("/rsa-trg", dashboardRoutes);
+app.use("/rsa-trg", videoRoutes);
+app.use("/rsa-trg", videoInteraction);
+app.use("/rsa-trg", adminVideoRoutes);
+app.use("/rsa-trg", GCPUploadRoutes);
+app.use("/rsa-trg", likeRoutes);
+// app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
