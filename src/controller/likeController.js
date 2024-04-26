@@ -15,12 +15,12 @@ exports.handleLikePost = async (req, res) => {
       // If count is not zero, check if user has already liked the video
       like = await Like.findOne({ where: { userId, videoId } });
 
-      if (like) {
-        // If like entry exists, return a message indicating it was not updated
-        return res.json({
-          message: "Like count was not updated. Duplicate user ID.",
-        });
-      }
+      //   if (like) {
+      //     // If like entry exists, return a message indicating it was not updated
+      //     return res.json({
+      //       message: "Like count was not updated. Duplicate user ID.",
+      //     });
+      //   }
 
       // If like entry does not exist, create a new entry
       like = await Like.create({ userId, videoId, count });
