@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 const bcrypt = require("bcrypt");
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -59,6 +59,28 @@ exports.loginUser = async (req, res) => {
   } catch (error) {
     console.error("Error from userContoller:", error.message);
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { newPassword } = req.body;
+
+    console.log(userId, "usernid j s ");
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -169,17 +191,17 @@ exports.getUserDetails = async (req, res) => {
 exports.getGarageDetails = async (req, res) => {
   try {
     const garages = await User.findAll({
-      attributes: ['garageName', 'garageId', 'userId'],
+      attributes: ["garageName", "garageId", "userId"],
       where: {
         role: {
-          [Sequelize.Op.not]: 'Admin'
-        }
-      }
+          [Sequelize.Op.not]: "Admin",
+        },
+      },
     });
     res.json(garages);
   } catch (error) {
-    console.error('Error executing Sequelize query:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error executing Sequelize query:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -209,11 +231,11 @@ exports.loginUserByRole = async (req, res) => {
 
     const { username, password } = req.body;
 
-    const user = await User.findOne({ 
-      where: { 
+    const user = await User.findOne({
+      where: {
         username,
-        role: 'Admin' 
-      } 
+        role: "Admin",
+      },
     });
 
     if (!user) {
