@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const likeContorllers = require("../controller/likeController");
 const Like = require("../model/Like");
+const likeContorller = require("../controller/likeController");
 
 router.post("/like", likeContorllers.handleLikePost);
-router.get("/getLike", likeContorllers.getLikeCount);
+router.get("/getLike", likeContorller.getData);
 // Route for the admin to get like counts for all videos
 router.get("/admin/like/count", likeContorllers.getAllLikeCounts);
 

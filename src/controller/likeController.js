@@ -71,6 +71,25 @@ exports.getAllLikeCounts = async (req, res) => {
   }
 };
 
+exports.getData = (req, res) => {
+  const { userId, videoId, username } = req.query;
+  // Use userId, videoId, and username to query your database
+  // For example, using Sequelize:
+  Like.findOne({
+    where: {
+      userId: userId,
+      videoId: videoId,
+      username: username,
+    },
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+};
+
 // Controller method to get like counts for all videos
 // exports.getAllLikeCounts = async (req, res) => {
 //   try {
