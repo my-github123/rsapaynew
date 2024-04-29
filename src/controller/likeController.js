@@ -5,12 +5,12 @@ const User = require("../model/VideoModel");
 
 exports.handleLikePost = async (req, res) => {
   try {
-    const { userId, videoId, count } = req.body;
+    const { userId, username, videoId, count, isActive } = req.body;
     let like;
 
     if (count === 0) {
       // If count is zero, allow duplicate users
-      like = await Like.create({ userId, videoId, count });
+      like = await Like.create({ userId, username, videoId, count, isActive });
     } else {
       // If count is not zero, check if user has already liked the video
       like = await Like.findOne({ where: { userId, videoId } });
@@ -23,7 +23,7 @@ exports.handleLikePost = async (req, res) => {
       //   }
 
       // If like entry does not exist, create a new entry
-      like = await Like.create({ userId, videoId, count });
+      like = await Like.create({ userId, username, videoId, count, isActive });
     }
 
     res.json(like);
@@ -56,10 +56,12 @@ exports.getAllLikeCounts = async (req, res) => {
     const likeCounts = await Like.findAll({
       attributes: [
         "userId",
+        "username",
         "videoId",
+        "isActive",
         [sequelize.fn("sum", sequelize.col("count")), "totalLikes"],
       ],
-      group: ["userId", "videoId"],
+      group: ["userId", "username", "videoId", "isActive"],
     });
 
     res.json(likeCounts);
