@@ -14,6 +14,8 @@ const adminVideoRoutes = require("./src/routes/videoAdminRoutes");
 const GCPUploadRoutes = require("./src/routes/uploadVideoRoutes");
 const uploadToServer = require("./src/routes/uploadVideoRoutes");
 const likeRoutes = require("./src/routes/likeRoutes");
+const addUserRoutes = require("./src/routes/addUserRoutes");
+const transactionRoutes = require("./src/routes/transactionRoutes");
 const app = express();
 
 app.use(express.json());
@@ -39,7 +41,10 @@ app.use("/rsa-trg", videoInteraction);
 app.use("/rsa-trg", adminVideoRoutes);
 app.use("/rsa-trg", GCPUploadRoutes);
 app.use("/rsa-trg", likeRoutes);
+app.use("/rsa-trq", addUserRoutes);
+app.use("/rsa-trq", transactionRoutes);
 
+// app.use("/api/users", addUserRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;
