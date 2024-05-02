@@ -44,6 +44,11 @@ const Post = sequelize.define("VideosList", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  isDisabled: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1,
+  },
   Date: {
     // Add this line to define the Date column
     type: DataTypes.DATE,

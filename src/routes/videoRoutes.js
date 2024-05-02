@@ -47,4 +47,6 @@ router.post('/insertVideosToGarages', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+router.post("/disableFlag", videoController.updatedisableFlag);
+
 module.exports = router;
