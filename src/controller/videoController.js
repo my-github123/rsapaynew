@@ -100,7 +100,6 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
     };
   }
 };
-<<<<<<< HEAD
 
 exports.updatedisableFlag = async (req, res) => {
   const { videoIds, isEnabled } = req.body;
@@ -130,5 +129,3 @@ exports.updatedisableFlag = async (req, res) => {
   }
 };
 
-=======
->>>>>>> e14b55dc8088decff3ccaf83d5d8252c152c85a9
