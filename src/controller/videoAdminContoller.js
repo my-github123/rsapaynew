@@ -1,4 +1,5 @@
 const AdminVideo = require("../model/VideoAdminModel");
+const { Op } = require('sequelize');
 
 exports.createAdminPost = async (req, res) => {
   try {
@@ -34,10 +35,23 @@ exports.createAdminPost = async (req, res) => {
 
 exports.getVideosByAdminId = async (req, res) => {
   try {
-    const videos = await AdminVideo.findAll({
-      where: { isEnabled: 1 },
-      group: ['name', 'url']
-    });
+    const { language } = req.body;
+
+    let videos;
+    if (language) {
+      videos = await AdminVideo.findAll({
+        where: {
+          isEnabled: 1,
+          language: language
+        },
+        group: ['name', 'url']
+      });
+    } else {
+      videos = await AdminVideo.findAll({
+        where: { isEnabled: 1 },
+        group: ['name', 'url']
+      });
+    }
 
     res.json(videos);
   } catch (error) {
@@ -45,6 +59,7 @@ exports.getVideosByAdminId = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 exports.disableVideo = async (req, res) => {
   const { videoIds, isEnabled } = req.body;
@@ -71,5 +86,57 @@ exports.disableVideo = async (req, res) => {
   } catch (error) {
     console.error('Error deleting videos:', error);
     res.status(500).json({ success: false, message: 'Failed to delete videos' });
+  }
+};
+
+exports.searchVideo = async (req, res) => {
+  try {
+    const searchTerm = req.query.q;
+
+    if (!searchTerm) {
+      return res.status(400).json({ error: 'Search term is required' });
+    }
+
+    const results = await AdminVideo.findAll({
+      where: {
+        [Op.and]: [
+          { isEnabled: 1 },
+          {
+            [Op.or]: [
+              { name: { [Op.like]: `%${searchTerm}%` } },
+            ]
+          }
+        ]
+      },
+      group: ['name', 'url']
+    });
+
+    res.json(results);
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.getVideosByLang = async (req, res) => {
+  try {
+    const { language } = req.body;
+
+    if (!language) {
+      return res.status(400).json({ message: 'Language is required in the request body' });
+    }
+
+    const videos = await AdminVideo.findAll({
+      where: {
+        isEnabled: 1,
+        language: language
+      },
+      group: ['name', 'url']
+    });
+
+    res.json(videos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };

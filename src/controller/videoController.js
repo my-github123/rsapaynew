@@ -95,3 +95,31 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
   }
 };
 
+exports.updatedisableFlag = async (req, res) => {
+  const { videoIds, isEnabled } = req.body;
+
+  try {
+    // Update isEnabled to 0 for the selected videos
+    for (const videoId of videoIds) {
+      const result = await Post.update(
+        { isDisabled: 0 },
+        { where: { videoId: videoId } }
+      );
+
+      if (result[0] > 0) {
+        // Video was updated successfully
+        console.log(`Video ${videoId} updated: isEnabled set to ${isEnabled}`);
+      } else {
+        // No video found with the given ID
+        console.log(`No video found with ID ${videoId}`);
+      }
+    }
+
+    res.status(200).json({ success: true, message: 'Videos deleted successfully' });
+
+  } catch (error) {
+    console.error('Error deleting videos:', error);
+    res.status(500).json({ success: false, message: 'Failed to delete videos' });
+  }
+};
+
