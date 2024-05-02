@@ -20,6 +20,10 @@ const Transaction = sequelize.define("TransactionList", {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
+  transactionId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = Transaction;

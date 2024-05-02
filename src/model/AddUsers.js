@@ -3,7 +3,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const User = sequelize.define("addusers", {
+const User = sequelize.define("adduserList", {
   userId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -15,7 +15,7 @@ const User = sequelize.define("addusers", {
   empId: DataTypes.STRING,
   amount: DataTypes.STRING,
   expDate: DataTypes.DATE,
-  //  role: DataTypes.STRING,
+  role: DataTypes.STRING,
   isActive: DataTypes.BOOLEAN,
   phoneNumber: DataTypes.STRING,
   location: DataTypes.STRING,

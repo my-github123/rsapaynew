@@ -16,6 +16,9 @@ const uploadToServer = require("./src/routes/uploadVideoRoutes");
 const likeRoutes = require("./src/routes/likeRoutes");
 const addUserRoutes = require("./src/routes/addUserRoutes");
 const transactionRoutes = require("./src/routes/transactionRoutes");
+const serviceList = require("./src/routes/serviceRoutes");
+// const debitRoutes=require("./s")
+
 const app = express();
 
 app.use(express.json());
@@ -43,8 +46,11 @@ app.use("/rsa-trg", GCPUploadRoutes);
 app.use("/rsa-trg", likeRoutes);
 app.use("/rsa-trq", addUserRoutes);
 app.use("/rsa-trq", transactionRoutes);
-
-// app.use("/api/users", addUserRoutes);
+app.use("/api/users", transactionRoutes);
+app.use("/api/users", addUserRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/users", serviceList);
+// app.use("/api/users", debitRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;

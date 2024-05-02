@@ -26,12 +26,16 @@ exports.addTransaction = async (req, res) => {
   try {
     const { adminID, userID, addAmount, expDate } = req.body;
 
+    // Generate a 6-digit random number
+    const transactionId = Math.floor(100000 + Math.random() * 900000);
+
     // Add a new transaction
     const newTransaction = await Transaction.create({
       adminID,
       userID,
       addAmount,
       expDate,
+      transactionId, // Include the generated transaction ID
     });
 
     // Update user's amount and expDate
@@ -44,7 +48,7 @@ exports.addTransaction = async (req, res) => {
       console.log("User updated:", updatedUser.toJSON());
     }
 
-    res.status(201).json({ messege: "Added Successfully" });
+    res.status(201).json({ messege: "Added Successfully", transactionId });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
@@ -103,6 +107,23 @@ exports.getTransaction = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+// exports.getTransactionID = async (req, res) => {
+//   try {
+//     const { userID } = req.query;
+//     const transactions = await Transaction.findAll({
+//       where: {
+//         userId: userID,
+//       },
+//       attributes: ["transactionID"],
+//     });
+
+//     res.status(200).json(transactions);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
 
 exports.deleteAllTransaction = async (req, res) => {
   try {

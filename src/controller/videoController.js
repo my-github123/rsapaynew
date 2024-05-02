@@ -61,7 +61,7 @@ exports.getVideosByUserId = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const videos = await Post.findAll({ where: { userId } });
+    const videos = await Post.findAll({ where: { userId, isDisabled: 1 } });
     res.json(videos);
   } catch (error) {
     console.error(error);
@@ -80,7 +80,7 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
           videoId: video.id,
           VideoUrl: video.url,
           Title: video.name,
-          Description: video.description
+          Description: video.description,
         };
         bulkInsertData.push(videoData);
       }
@@ -88,10 +88,15 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
 
     await Post.bulkCreate(bulkInsertData);
 
-    return { success: true, message: 'Videos inserted to garages successfully' };
+    return {
+      success: true,
+      message: "Videos inserted to garages successfully",
+    };
   } catch (error) {
-    console.error('Error inserting videos to garages:', error);
-    return { success: false, error: 'An error occurred while inserting videos to garages' };
+    console.error("Error inserting videos to garages:", error);
+    return {
+      success: false,
+      error: "An error occurred while inserting videos to garages",
+    };
   }
 };
-

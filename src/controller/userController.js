@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
+const getUsers = require("../model/AddUsers");
 const bcrypt = require("bcrypt");
 const { Sequelize } = require("sequelize");
 
@@ -34,33 +35,77 @@ exports.loginUser = async (req, res) => {
     const { username, password } = req.body;
 
     const user = await User.findOne({ where: { username } });
+    const getUser = await getUsers.findOne({ where: { username } });
 
-    if (!user) {
-      console.log("User not found");
-      return res
-        .status(401)
-        .json({ error: "Invalid username or password from user" });
+    let authenticatedUser;
+
+    if (user && user.password === password) {
+      authenticatedUser = user;
+    } else if (getUser && getUser.password === password) {
+      authenticatedUser = getUser;
+    } else {
+      return res.status(401).json({ error: "Invalid username or password" });
     }
 
-    const passwordMatch = user.password === password;
+    const token = jwt.sign(
+      { userId: authenticatedUser.id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1000y",
+      }
+    );
 
-    if (!passwordMatch) {
-      return res
-        .status(401)
-        .json({ error: "Invalid username or password from password" });
-    }
-
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1000y",
-    });
     console.log("Login successful");
 
-    res.json({ message: "Login successful", token, user });
+    res.json({ message: "Login successful", token, user: authenticatedUser });
   } catch (error) {
-    console.error("Error from userContoller:", error.message);
+    console.error("Error from userController:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
+
+// exports.loginUser = async (req, res) => {
+//   try {
+//     console.log("Request body:", req.body);
+
+//     const { username, password } = req.body;
+
+//     const user = await User.findOne({ where: { username } });
+//     const getUser = await getUsers.findOne({ where: { username } });
+
+//     console.log(user.fromApp, "sdsds", user.role, "aas");
+
+//     let authenticatedUser;
+
+//     // if (user.fromApp === "Training portals" && user.role !== "admin") {
+//     //   console.log("User is not allowed to login");
+//     //   return res.status(403).json({ error: "User not authorized to login" });
+//     // }
+
+//     if (user && user.password === password) {
+//       authenticatedUser = user;
+//     } else if (getUser && getUser.password === password) {
+//       authenticatedUser = getUser;
+//     } else {
+//       return res.status(401).json({ error: "Invalid username or password" });
+//     }
+
+//     const token = jwt.sign(
+//       { userId: authenticatedUser.id },
+//       process.env.JWT_SECRET,
+//       {
+//         expiresIn: "1000y",
+//       }
+//     );
+
+//     console.log("Login successful");
+
+//     res.json({ message: "Login successful", token, user: authenticatedUser });
+//   } catch (error) {
+//     console.error("Error from userController:", error.message);
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 exports.resetPassword = async (req, res) => {
   try {
