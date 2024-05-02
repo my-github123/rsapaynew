@@ -23,6 +23,15 @@ const AdminVideo = sequelize.define("AdminVideosLists", {
     type: DataTypes.STRING,
     allowNull: false,
   },  
+  isEnabled: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1
+  },
+  language: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   date: {
     type: DataTypes.DATE,
     allowNull: true,
