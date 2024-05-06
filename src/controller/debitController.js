@@ -1,8 +1,20 @@
 const Transaction = require("../model/debitModel");
 const addUsers = require("../model/AddUsers");
+const { Storage } = require("@google-cloud/storage");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+const storage = new Storage({
+  keyFilename: path.join(
+    __dirname,
+    "../../prj-stag-gobumpr-service-6567-86059d44965a.json"
+  ),
+  projectId: "prj-stag-gobumpr-service-6567",
+});
+// Calculate expiration date one year from now
 
 exports.createTransaction = async (req, res) => {
-  console.log(req.body, "REQ IS BODY IS THERE");
   try {
     const {
       adminID,
@@ -18,6 +30,45 @@ exports.createTransaction = async (req, res) => {
     } = req.body;
     const image = req.file.path; // Multer will add a 'file' property to the request object
 
+    const bucketName = "bkt-gobumper-stag-02";
+    const destinationFileName = `rsa-images/${req.file.originalname}`;
+    const fileType = req.file.originalname.split(".").pop();
+
+    let contentType;
+    if (fileType === "mp4") {
+      contentType = "video/mp4";
+    } else if (fileType === "png") {
+      contentType = "image/png";
+    } else if (fileType === "jpg" || fileType === "jpeg") {
+      contentType = "image/jpeg";
+    } else if (fileType === "gif") {
+      contentType = "image/gif";
+    } else {
+      // Default to application/octet-stream for unknown types
+      contentType = "application/octet-stream";
+    }
+
+    await storage.bucket(bucketName).upload(req.file.path, {
+      destination: destinationFileName,
+      contentType,
+    });
+
+    const oneYearFromNow = new Date();
+    oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+
+    // Generate a signed URL for the uploaded file
+    const [url] = await storage
+      .bucket(bucketName)
+      .file(destinationFileName)
+      .getSignedUrl({ action: "read", expires: oneYearFromNow });
+
+    // Send the URL as part of the response
+    fs.unlink(req.file.path, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      }
+    });
+
     const newTransaction = await Transaction.create({
       adminID,
       userID,
@@ -29,7 +80,7 @@ exports.createTransaction = async (req, res) => {
       remarks,
       amount,
       transactionId,
-      image,
+      image: url,
     });
 
     const user = await addUsers.findOne({ where: { adminID, userID } });
