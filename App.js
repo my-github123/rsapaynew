@@ -49,16 +49,16 @@ app.use("/rsa-trg", adminVideoRoutes);
 app.use("/rsa-trg", GCPUploadRoutes);
 
 //RSA admin routes
-app.use("/rsa-trq", addUserRoutes);
-app.use("/rsa-trq", transactionRoutes);
-app.use("/rsa-trq", transactionRoutes);
-app.use("/rsa-trq", addUserRoutes);
-app.use("/rsa-trq", userRoutes);
-app.use("/rsa-trq", serviceList);
+app.use("/rsa-trg", addUserRoutes);
+app.use("/rsa-trg", transactionRoutes);
+app.use("/rsa-trg", transactionRoutes);
+app.use("/rsa-trg", addUserRoutes);
+app.use("/rsa-trg", userRoutes);
+app.use("/rsa-trg", serviceList);
 
 // RSA user routes
-app.use("/rsa-trq", debitRoutes);
-app.use("/rsa-trq", debitCreditRoutes);
+app.use("/rsa-trg", debitRoutes);
+app.use("/rsa-trg", debitCreditRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;
