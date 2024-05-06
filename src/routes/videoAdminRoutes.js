@@ -7,8 +7,11 @@ router.post(
   "/postVideos",videoAdminController.createAdminPost
 );
 
-router.get("/getAdminVideos", videoAdminController.getVideosByAdminId);
+router.post("/getAdminVideos", videoAdminController.getVideosByAdminId);
 router.post("/disableVideo", videoAdminController.disableVideo);
+router.get("/searchVideos", videoAdminController.searchVideo);
+router.get("/getVideosByLang", videoAdminController.getVideosByLang);
+
 
 // router.post("/mapVideo",videoController.insertVideosToGarages)
 
