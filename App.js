@@ -17,7 +17,8 @@ const likeRoutes = require("./src/routes/likeRoutes");
 const addUserRoutes = require("./src/routes/addUserRoutes");
 const transactionRoutes = require("./src/routes/transactionRoutes");
 const serviceList = require("./src/routes/serviceRoutes");
-// const debitRoutes=require("./s")
+const debitRoutes = require("./src/routes/debitRoutes");
+const debitCreditRoutes = require("./src/routes/getDebitCreditRoutes");
 
 const app = express();
 
@@ -36,21 +37,28 @@ sequelize
   });
 
 // Routes
-
+// user training portal routes
 app.use("/rsa-trg", userRoutes);
 app.use("/rsa-trg", dashboardRoutes);
 app.use("/rsa-trg", videoRoutes);
 app.use("/rsa-trg", videoInteraction);
+app.use("/rsa-trg", likeRoutes);
+
+//admin portal routes
 app.use("/rsa-trg", adminVideoRoutes);
 app.use("/rsa-trg", GCPUploadRoutes);
-app.use("/rsa-trg", likeRoutes);
+
+//RSA admin routes
 app.use("/rsa-trq", addUserRoutes);
 app.use("/rsa-trq", transactionRoutes);
-app.use("/api/users", transactionRoutes);
-app.use("/api/users", addUserRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/users", serviceList);
-// app.use("/api/users", debitRoutes);
+app.use("/rsa-trq", transactionRoutes);
+app.use("/rsa-trq", addUserRoutes);
+app.use("/rsa-trq", userRoutes);
+app.use("/rsa-trq", serviceList);
+
+// RSA user routes
+app.use("/rsa-trq", debitRoutes);
+app.use("/rsa-trq", debitCreditRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;

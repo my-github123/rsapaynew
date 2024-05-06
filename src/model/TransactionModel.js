@@ -3,7 +3,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Transaction = sequelize.define("TransactionList", {
+const Transaction = sequelize.define("rsa_credit_list", {
   adminID: {
     type: DataTypes.INTEGER,
     allowNull: false,

@@ -32,10 +32,10 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // address: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  // },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   garageName: {
     type: DataTypes.STRING,
     allowNull: false,

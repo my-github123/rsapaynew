@@ -3,13 +3,13 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const User = sequelize.define("adduserList", {
-  userId: {
+const User = sequelize.define("rsa_users", {
+  userID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  adminId: DataTypes.INTEGER,
+  adminID: DataTypes.INTEGER,
   username: DataTypes.STRING,
   password: DataTypes.STRING,
   empId: DataTypes.STRING,

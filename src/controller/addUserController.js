@@ -5,8 +5,8 @@ const User = require("../model/AddUsers");
 exports.addUser = async (req, res) => {
   try {
     const {
-      userId,
-      adminId,
+      userID,
+      adminID,
       username,
       password,
       empId,
@@ -20,8 +20,8 @@ exports.addUser = async (req, res) => {
     const isActive = true;
 
     const newUser = await User.create({
-      userId,
-      adminId,
+      userID,
+      adminID,
       username,
       password,
       empId,
