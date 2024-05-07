@@ -2,11 +2,11 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const DebitList = sequelize.define("rsa_debit_list", {
-  adminID: {
+  adminId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  userID: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

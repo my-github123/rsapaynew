@@ -4,24 +4,24 @@ const GetUsers = require("../model/AddUsers");
 
 exports.getTransactionData = async (req, res) => {
   try {
-    const { adminID, userID } = req.query;
+    const { adminId, userId } = req.query;
 
     // Validate adminID and userID
-    if (isNaN(adminID) || isNaN(userID)) {
+    if (isNaN(adminId) || isNaN(userId)) {
       return res.status(400).json({ error: "Invalid adminID or userID" });
     }
 
     // Fetch data from both models
     const transactions = await Transaction.findAll({
-      where: { adminID, userID },
+      where: { adminId, userId },
     });
 
     const userDetails = await GetUsers.findOne({
-      where: { adminID, userID },
+      where: { adminId, userId },
       attributes: ["amount", "expDate"], // Specify the fields you want to fetch
     });
 
-    const debits = await DebitList.findAll({ where: { adminID, userID } });
+    const debits = await DebitList.findAll({ where: { adminId, userId } });
 
     // Format response
     const response = {

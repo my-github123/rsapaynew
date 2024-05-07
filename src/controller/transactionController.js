@@ -24,22 +24,24 @@ const User = require("../model/AddUsers");
 
 exports.addTransaction = async (req, res) => {
   try {
-    const { adminID, userID, addAmount, expDate } = req.body;
+    const { adminId, userId, addAmount, expDate } = req.body;
+
+    console.log(req.body, "RSDFSD");
 
     // Generate a 6-digit random number
     const transactionId = Math.floor(100000 + Math.random() * 900000);
 
     // Add a new transaction
     const newTransaction = await Transaction.create({
-      adminID,
-      userID,
+      adminId,
+      userId,
       addAmount,
       expDate,
       transactionId, // Include the generated transaction ID
     });
 
     // Update user's amount and expDate
-    const user = await User.findOne({ where: { userId: userID } });
+    const user = await User.findOne({ where: { userId: userId } });
     if (user) {
       const updatedUser = await user.update({
         amount: parseInt(user.amount) + parseInt(addAmount),
@@ -88,13 +90,13 @@ exports.getTransactionforAdminID = async (req, res) => {
 
 exports.getTransaction = async (req, res) => {
   try {
-    const { userID } = req.query;
+    const { userId } = req.query;
     let users;
 
-    if (userID) {
+    if (userId) {
       users = await Transaction.findAll({
         where: {
-          userId: userID,
+          userId: userId,
         },
       });
     } else {

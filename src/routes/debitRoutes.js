@@ -15,7 +15,7 @@ const upload = multer({ storage: storage });
 
 router.post(
   "/rsaAddDebit",
-  //  upload.single("image"),
+  upload.single("image"),
   debitController.createTransaction
 );
 

@@ -17,8 +17,8 @@ const storage = new Storage({
 exports.createTransaction = async (req, res) => {
   try {
     const {
-      adminID,
-      userID,
+      adminId,
+      userId,
       customerName,
       customerMobileNumber,
       ticketNo,
@@ -31,48 +31,50 @@ exports.createTransaction = async (req, res) => {
 
     console.log(req.file.path, "FILE PATH IS THERE........");
 
-    const bucketName = "bkt-gobumper-stag-02";
-    const destinationFileName = `rsa-images/${req.file.originalname}`;
-    const fileType = req.file.originalname.split(".").pop();
+    const image = req.file.path ? req.file.path : null;
 
-    let contentType;
-    if (fileType === "mp4") {
-      contentType = "video/mp4";
-    } else if (fileType === "png") {
-      contentType = "image/png";
-    } else if (fileType === "jpg" || fileType === "jpeg") {
-      contentType = "image/jpeg";
-    } else if (fileType === "gif") {
-      contentType = "image/gif";
-    } else {
-      // Default to application/octet-stream for unknown types
-      contentType = "application/octet-stream";
-    }
+    // const bucketName = "bkt-gobumper-stag-02";
+    // const destinationFileName = `rsa-images/${req.file.originalname}`;
+    // const fileType = req.file.originalname.split(".").pop();
 
-    await storage.bucket(bucketName).upload(req.file.path, {
-      destination: destinationFileName,
-      contentType,
-    });
+    // let contentType;
+    // if (fileType === "mp4") {
+    //   contentType = "video/mp4";
+    // } else if (fileType === "png") {
+    //   contentType = "image/png";
+    // } else if (fileType === "jpg" || fileType === "jpeg") {
+    //   contentType = "image/jpeg";
+    // } else if (fileType === "gif") {
+    //   contentType = "image/gif";
+    // } else {
+    //   // Default to application/octet-stream for unknown types
+    //   contentType = "application/octet-stream";
+    // }
 
-    const oneYearFromNow = new Date();
-    oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+    // await storage.bucket(bucketName).upload(req.file.path, {
+    //   destination: destinationFileName,
+    //   contentType,
+    // });
 
-    // Generate a signed URL for the uploaded file
-    const [url] = await storage
-      .bucket(bucketName)
-      .file(destinationFileName)
-      .getSignedUrl({ action: "read", expires: oneYearFromNow });
+    // const oneYearFromNow = new Date();
+    // oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
 
-    // Send the URL as part of the response
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.error("Error deleting file:", err);
-      }
-    });
+    // // Generate a signed URL for the uploaded file
+    // const [url] = await storage
+    //   .bucket(bucketName)
+    //   .file(destinationFileName)
+    //   .getSignedUrl({ action: "read", expires: oneYearFromNow });
+
+    // // Send the URL as part of the response
+    // fs.unlink(req.file.path, (err) => {
+    //   if (err) {
+    //     console.error("Error deleting file:", err);
+    //   }
+    // });
 
     const newTransaction = await Transaction.create({
-      adminID,
-      userID,
+      adminId,
+      userId,
       customerName,
       customerMobileNumber,
       ticketNo,
@@ -81,10 +83,10 @@ exports.createTransaction = async (req, res) => {
       remarks,
       amount,
       transactionId,
-      image: url,
+      image,
     });
 
-    const user = await addUsers.findOne({ where: { adminID, userID } });
+    const user = await addUsers.findOne({ where: { adminId, userId } });
     if (!user) {
       throw new Error("User not found");
     }
@@ -93,7 +95,7 @@ exports.createTransaction = async (req, res) => {
 
     await addUsers.update(
       { amount: updatedAmount.toString() },
-      { where: { adminID, userID } }
+      { where: { adminId, userId } }
     );
 
     res.status(201).json({

@@ -4,11 +4,11 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const Transaction = sequelize.define("rsa_credit_list", {
-  adminID: {
+  adminId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  userID: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

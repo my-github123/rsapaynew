@@ -50,12 +50,13 @@ app.use("/rsa-trg", GCPUploadRoutes);
 
 //RSA admin routes
 app.use("/rsa-trg", addUserRoutes);
+
 app.use("/rsa-trg", transactionRoutes);
 app.use("/rsa-trg", serviceList);
 
 // RSA user routes
 app.use("/rsa-trg", debitRoutes);
-app.use("/api/users", debitRoutes);
+
 app.use("/rsa-trg", debitCreditRoutes);
 // app.use("/api/users", uploadToServer);
 
