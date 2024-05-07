@@ -51,17 +51,15 @@ app.use("/rsa-trg", GCPUploadRoutes);
 //RSA admin routes
 app.use("/rsa-trg", addUserRoutes);
 app.use("/rsa-trg", transactionRoutes);
-app.use("/rsa-trg", transactionRoutes);
-app.use("/rsa-trg", addUserRoutes);
-app.use("/rsa-trg", userRoutes);
 app.use("/rsa-trg", serviceList);
 
 // RSA user routes
 app.use("/rsa-trg", debitRoutes);
+app.use("/api/users", debitRoutes);
 app.use("/rsa-trg", debitCreditRoutes);
 // app.use("/api/users", uploadToServer);
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

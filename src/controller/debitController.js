@@ -28,7 +28,8 @@ exports.createTransaction = async (req, res) => {
       transactionId,
       amount,
     } = req.body;
-    const image = req.file.path; // Multer will add a 'file' property to the request object
+
+    console.log(req.file.path, "FILE PATH IS THERE........");
 
     const bucketName = "bkt-gobumper-stag-02";
     const destinationFileName = `rsa-images/${req.file.originalname}`;
@@ -118,6 +119,20 @@ exports.getTransactionByUserAndAdmin = async (req, res) => {
     });
 
     res.status(200).json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.deleteAllDebit = async (req, res) => {
+  console.log(req.url, ":wfwsdsds");
+  try {
+    await Transaction.destroy({
+      where: {},
+      truncate: true,
+    });
+    res.status(200).json({ message: "All Debit List deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });

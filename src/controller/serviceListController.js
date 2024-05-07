@@ -27,3 +27,15 @@ exports.getAllServices = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.deleteAllServices = async (req, res) => {
+  try {
+    await ServiceList.destroy({
+      where: {},
+      truncate: true,
+    });
+    res.status(200).json({ message: "All ServiceList deleted successfully" });
+  } catch (e) {
+    console.log(e, "ERROR IS THRE");
+  }
+};

@@ -4,20 +4,20 @@ const express = require("express");
 const router = express.Router();
 const transactionController = require("../controller/transactionController");
 
-router.post("/addTransaction", transactionController.addTransaction);
+router.post("/rsaAddTransaction", transactionController.addTransaction);
 
 // GET /api/users?adminID=3
-router.get("/getTransaction", transactionController.getTransaction);
+router.get("/rsaGetTransaction", transactionController.getTransaction);
 
 router.get(
-  "/getTranctionAdmin",
+  "/rsaGetTranctionAdmin",
   transactionController.getTransactionforAdminID
 );
 
-router.get("/getTransactionAll", transactionController.getTransactionList);
+router.get("/rsaGetTransactionAll", transactionController.getTransactionList);
 
 router.delete(
-  "/deleteTransactionAll",
+  "/rsaDeleteTransactionAll",
   transactionController.deleteAllTransaction
 );
 

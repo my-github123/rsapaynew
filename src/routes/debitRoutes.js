@@ -14,11 +14,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post(
-  "/addDebit",
-  upload.single("image"),
+  "/rsaAddDebit",
+  //  upload.single("image"),
   debitController.createTransaction
 );
 
-router.get("/getDebit", debitController.getTransactionByUserAndAdmin);
+router.get("/rsaGetDebit", debitController.getTransactionByUserAndAdmin);
+
+router.delete("/rsaDeleteAllDebit", debitController.deleteAllDebit);
 
 module.exports = router;
