@@ -37,12 +37,6 @@ exports.loginUser = async (req, res) => {
     const user = await User.findOne({ where: { username } });
     const getUser = await getUsers.findOne({ where: { username } });
 
-    // const getAdminId = getUser ? getUser.adminId : null;
-
-    // console.log(getAdminId, "admin id is there..");
-
-    // console.log(getAdminId, "GET ADMIN ID IS THERE.......");
-
     let authenticatedUser;
 
     if (user && user.password === password) {
