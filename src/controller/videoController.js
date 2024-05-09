@@ -69,12 +69,60 @@ exports.getVideosByUserId = async (req, res) => {
   }
 };
 
+// exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
+//   try {
+//     const bulkInsertData = [];
+
+//     for (const garageId of selectedGarages) {
+//       for (const video of selectedVideos) {
+//         const videoData = {
+//           userId: garageId,
+//           videoId: video.id,
+//           VideoUrl: video.url,
+//           Title: video.name,
+//           Description: video.description,
+//         };
+//         bulkInsertData.push(videoData);
+//       }
+//     }
+
+//     await Post.bulkCreate(bulkInsertData);
+
+//     return {
+//       success: true,
+//       message: "Videos inserted to garages successfully",
+//     };
+//   } catch (error) {
+//     console.error("Error inserting videos to garages:", error);
+//     return {
+//       success: false,
+//       error: "An error occurred while inserting videos to garages",
+//     };
+//   }
+// };
 exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
   try {
     const bulkInsertData = [];
 
     for (const garageId of selectedGarages) {
-      for (const video of selectedVideos) {
+      // Check existing records for current garageId
+      const existingVideoIds = await Post.findAll({
+        where: {
+          userId: garageId,
+          videoId: selectedVideos.map((video) => video.id),
+        },
+        attributes: ["videoId"],
+        raw: true,
+      });
+
+      const filteredVideos = selectedVideos.filter((video) => {
+        return !existingVideoIds.some(
+          (existing) => existing.videoId === video.id
+        );
+      });
+
+      // Create bulk insert data for filtered videos
+      for (const video of filteredVideos) {
         const videoData = {
           userId: garageId,
           videoId: video.id,
@@ -85,8 +133,9 @@ exports.insertVideosToGarages = async (selectedGarages, selectedVideos) => {
         bulkInsertData.push(videoData);
       }
     }
-
-    await Post.bulkCreate(bulkInsertData);
+    if (bulkInsertData.length > 0) {
+      await Post.bulkCreate(bulkInsertData);
+    }
 
     return {
       success: true,
@@ -121,11 +170,13 @@ exports.updatedisableFlag = async (req, res) => {
       }
     }
 
-    res.status(200).json({ success: true, message: 'Videos deleted successfully' });
-
+    res
+      .status(200)
+      .json({ success: true, message: "Videos deleted successfully" });
   } catch (error) {
-    console.error('Error deleting videos:', error);
-    res.status(500).json({ success: false, message: 'Failed to delete videos' });
+    console.error("Error deleting videos:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to delete videos" });
   }
 };
-
