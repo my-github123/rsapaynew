@@ -10,6 +10,7 @@ router.get("/getGarages", userController.getGarageDetails);
 router.get("/getUsers", userController.getAllUsers);
 router.post("/getUserByRole", userController.loginUserByRole);
 router.put("/users/:userId", userController.resetPassword);
+router.get("/userExcelExport", userController.userDetailsExport)
 // router.post("/mapVideos", userController.mapVideoToGarage);
 // router.put('/update', authMiddleware.verifyToken, userController.updateUser);
 // router.get('/getuser', authMiddleware.verifyToken, userController.getUserDetails);
