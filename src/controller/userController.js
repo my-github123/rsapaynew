@@ -240,21 +240,38 @@ exports.getUserDetails = async (req, res) => {
 };
 
 exports.getGarageDetails = async (req, res) => {
+  const { garageType } = req.query;
+  console.log('Received garageType:', garageType);
+
   try {
-    const garages = await User.findAll({
-      attributes: ["garageName", "garageId", "userId"],
-      where: {
-        role: {
-          [Sequelize.Op.not]: "Admin",
+    let garages;
+    if (garageType === 'all') {
+      garages = await User.findAll({
+        where: {
+          role: {
+            [Sequelize.Op.not]: "Admin",
+          },
         },
-      },
-    });
+        group: ["garageName"],
+      });
+    } else {
+      garages = await User.findAll({
+        where: { 
+          role: {
+            [Sequelize.Op.not]: "Admin",
+          },
+          garageType: garageType
+        },
+        group: ["garageName"],
+      });
+    }
     res.json(garages);
   } catch (error) {
     console.error("Error executing Sequelize query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 // exports.mapVideoToGarage = async (req, res) => {
 //   try {
