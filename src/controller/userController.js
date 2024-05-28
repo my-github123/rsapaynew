@@ -350,7 +350,7 @@ exports.userDetailsExport = async (req, res) => {
     u.createdAt,
     u.updatedAt,
     u.role,
-    COUNT(v.videoUrl) AS totalVideos
+    COUNT(v.videoUrl) AS totalVideos,
     GROUP_CONCAT(v.Title SEPARATOR ', ') AS videoTitles
     FROM
     go_bumpr.users u
