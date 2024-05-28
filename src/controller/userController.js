@@ -351,6 +351,7 @@ exports.userDetailsExport = async (req, res) => {
     u.updatedAt,
     u.role,
     COUNT(v.videoUrl) AS totalVideos
+    GROUP_CONCAT(v.Title SEPARATOR ', ') AS videoTitles
     FROM
     go_bumpr.users u
     LEFT JOIN
@@ -368,7 +369,8 @@ exports.userDetailsExport = async (req, res) => {
       { header: 'Garage Name', key: 'garageName', width: 30 },
       { header: 'Login Time', key: 'createdAt', width: 30 },
       { header: 'Logout Time', key: 'updatedAt', width: 30 },
-      { header: 'Total Videos', key: 'totalVideos', width: 10 }
+      { header: 'Total Videos', key: 'totalVideos', width: 10 },
+      { header: 'Video Name', key:'videoTitles', width: 60}
     ];
 
     users[0].forEach(user => {
@@ -377,7 +379,8 @@ exports.userDetailsExport = async (req, res) => {
         garageName: user.garageName,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
-        totalVideos: user.totalVideos
+        totalVideos: user.totalVideos,
+        videoTitles:user.videoTitles
       });
     });
 
