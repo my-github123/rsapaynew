@@ -5,28 +5,26 @@ const https = require('https');
 const crypto = require("crypto");
 
 
-const algorithm = "aes-256-cbc"; // Encryption algorithm
-const key = crypto.randomBytes(32); // Replace with your encryption key
-const iv = crypto.randomBytes(16); // Initialization vector
+function encrypt(key, text) {
+  const keyBuffer = Buffer.from(key, 'hex');
+   const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
+  
 
-const encrypt = (text) => {
-  const cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
-  let encrypted = cipher.update(Buffer.from(JSON.stringify(text), "utf-8"));
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
-  // return { VerifyVPARequestBodyEncrypted: encrypted.toString('hex') };
-  return encrypted.toString("hex");
-};
+  const cipher = crypto.createCipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+  let encrypted = Buffer.concat([cipher.update(JSON.stringify(text), 'utf8'), cipher.final()]);
+  return Buffer.concat([ivBuffer, encrypted]).toString('base64');
+}
 
-
-
-
-const decrypt = (text) => {
-  let encryptedText = Buffer.from(text, 'hex');
-  let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
-  let decrypted = decipher.update(encryptedText);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
-  return decrypted.toString();
-};
+function decrypt(key, encrypted) {
+  const keyBuffer = Buffer.from(key, 'hex');
+  const encryptedBuffer = Buffer.from(encrypted, 'base64');
+  const ivBuffer = encryptedBuffer.slice(0, 16);
+  const ciphertextBuffer = encryptedBuffer.slice(16);
+  const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+  let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
 
 const getStatus = async (req, res) => {
     const { SubHeader, GetStatusRequestBody } = req.body.GetStatusRequest || {};
@@ -37,8 +35,18 @@ const getStatus = async (req, res) => {
         error: "SubHeader and GetStatusRequestBody are required",
       });
     }
+
+
+    const keyAsHexString = 'D8ABA26A5EA3126758F4F9A593BC573B';
+
+    // Convert hexadecimal string to Buffer
+    const keyBuffer = Buffer.from(keyAsHexString, 'hex');
   
-    const encryptedBody = encrypt(JSON.stringify(GetStatusRequestBody));
+  
+    
+    console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
+  
+    const encryptedBody = encrypt(keyBuffer,GetStatusRequestBody);
     const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/get-status";
     const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
     const passphrase = "Year@2024";
@@ -56,8 +64,10 @@ const getStatus = async (req, res) => {
           GetStatusRequestBodyEncrypted: encryptedBody,
         }
       };
+
+      const body=JSON.stringify(apiBody)
   
-      const response = await axios.post(apiUrl, apiBody, {
+      const response = await axios.post(apiUrl, body, {
         httpsAgent: httpsAgent,
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +78,7 @@ const getStatus = async (req, res) => {
   
       const { GetStatusResponse } = response.data;
       const { SubHeader, GetStatusRequestBodyEncrypted } = GetStatusResponse;
-      const decryptedResponseBody = decrypt(GetStatusRequestBodyEncrypted);
+      const decryptedResponseBody = decrypt(keyBuffer,GetStatusRequestBodyEncrypted);
       const parsedResponseBody =decryptedResponseBody;
   
       res.status(200).json({

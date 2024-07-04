@@ -108,8 +108,8 @@ exports.verifyVPA = async (req, res) => {
     console.log(response,"response is there.....");
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
-    const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
-    const decryptedResponseBody = decrypt(keyAsHexString,encryptedResponseBody);
+    const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBody;
+    const decryptedResponseBody = decrypt(keyBuffer,encryptedResponseBody);
 
 
 
