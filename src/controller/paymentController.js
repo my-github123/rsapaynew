@@ -6,7 +6,7 @@ const https = require('https');
 const crypto = require("crypto");
 
 
-const algorithm = "aes-128-cbc"; // Encryption algorithm
+const algorithm = "aes-256-cbc"; // Encryption algorithm
 const key = crypto.randomBytes(32); // Replace with your encryption key
 const iv = crypto.randomBytes(16); // Initialization vector
 
