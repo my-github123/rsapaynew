@@ -19,6 +19,8 @@ const transactionRoutes = require("./src/routes/transactionRoutes");
 const serviceList = require("./src/routes/serviceRoutes");
 const debitRoutes = require("./src/routes/debitRoutes");
 const debitCreditRoutes = require("./src/routes/getDebitCreditRoutes");
+const verifyVPARoute = require('./src/routes/verifyVPARoutes');
+
 
 const app = express();
 
@@ -27,14 +29,14 @@ app.use(express.json());
 // Enable CORS for all routes
 app.use(cors());
 
-sequelize
-  .sync()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((e) => {
-    console.error("Unable to connect to the database:", e);
-  });
+// sequelize
+//   .sync()
+//   .then(() => {
+//     console.log("Connection has been established successfully.");
+//   })
+//   .catch((e) => {
+//     console.error("Unable to connect to the database:", e);
+//   });
 
 // Routes
 // user training portal routes
@@ -56,6 +58,8 @@ app.use("/rsa-trg", serviceList);
 // RSA user routes
 app.use("/rsa-trg", debitRoutes);
 app.use("/rsa-trg", debitCreditRoutes);
+// Use the verifyVPA route for handling /verifyVPA requests
+app.use("/rsa-trg", verifyVPARoute);
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
