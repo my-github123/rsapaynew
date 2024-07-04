@@ -3,6 +3,8 @@ const User = require("../model/User");
 const getUsers = require("../model/AddUsers");
 const bcrypt = require("bcrypt");
 const { Sequelize } = require("sequelize");
+const ExcelJS = require('exceljs');
+const sequelize = require('../config/db');
 
 exports.registerUser = async (req, res) => {
   try {
@@ -238,21 +240,38 @@ exports.getUserDetails = async (req, res) => {
 };
 
 exports.getGarageDetails = async (req, res) => {
+  const { garageType } = req.query;
+  console.log('Received garageType:', garageType);
+
   try {
-    const garages = await User.findAll({
-      attributes: ["garageName", "garageId", "userId"],
-      where: {
-        role: {
-          [Sequelize.Op.not]: "Admin",
+    let garages;
+    if (garageType === 'all') {
+      garages = await User.findAll({
+        where: {
+          role: {
+            [Sequelize.Op.not]: "Admin",
+          },
         },
-      },
-    });
+        group: ["garageName"],
+      });
+    } else {
+      garages = await User.findAll({
+        where: { 
+          role: {
+            [Sequelize.Op.not]: "Admin",
+          },
+          garageType: garageType
+        },
+        group: ["garageName"],
+      });
+    }
     res.json(garages);
   } catch (error) {
     console.error("Error executing Sequelize query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 // exports.mapVideoToGarage = async (req, res) => {
 //   try {
@@ -318,5 +337,63 @@ exports.loginUserByRole = async (req, res) => {
   } catch (error) {
     console.error("Error from userContoller:", error.message);
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.userDetailsExport = async (req, res) => {
+  try {
+    // const users = await User.findAll({ attributes: ["username","garageName","createdAt","updatedAt"] });
+    const users = await sequelize.query(`
+    SELECT 
+    u.username,
+    u.garageName,
+    u.createdAt,
+    u.updatedAt,
+    u.role,
+    COUNT(v.videoUrl) AS totalVideos,
+    GROUP_CONCAT(v.Title SEPARATOR ', ') AS videoTitles
+    FROM
+    go_bumpr.users u
+    LEFT JOIN
+    go_bumpr.VideosLists v ON u.userId = v.userId where u.role!='admin' AND v.isDisabled = 1 
+    GROUP BY
+    u.username;
+    `);
+    // Create a new workbook and worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Users');
+
+    // Add columns
+    worksheet.columns = [
+      { header: 'Username', key: 'username', width: 20 },
+      { header: 'Garage Name', key: 'garageName', width: 30 },
+      { header: 'Login Time', key: 'createdAt', width: 30 },
+      { header: 'Logout Time', key: 'updatedAt', width: 30 },
+      { header: 'Total Videos', key: 'totalVideos', width: 10 },
+      { header: 'Video Name', key:'videoTitles', width: 60}
+    ];
+
+    users[0].forEach(user => {
+      worksheet.addRow({
+        username: user.username,
+        garageName: user.garageName,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        totalVideos: user.totalVideos,
+        videoTitles:user.videoTitles
+      });
+    });
+
+    ['createdAt', 'updatedAt'].forEach(key => {
+      worksheet.getColumn(key).numFmt = 'yyyy-mm-dd hh:mm:ss';
+    });
+
+    // Write to buffer and send as response
+    const buffer = await workbook.xlsx.writeBuffer();
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=users.xlsx');
+    res.send(buffer);
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 };
