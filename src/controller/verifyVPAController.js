@@ -12,14 +12,32 @@ const { response } = require("express");
 
 
 
-function encrypt(key, text) {
-  const keyBuffer = Buffer.from(key, 'hex');
-   const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
+// function encrypt(key, text) {
+//   const keyBuffer = Buffer.from(key, 'hex');
+//    const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
   
 
-  const cipher = crypto.createCipheriv('aes-128-cbc', keyBuffer, ivBuffer);
-  let encrypted = Buffer.concat([cipher.update(JSON.stringify(text), 'utf8'), cipher.final()]);
-  return Buffer.concat([ivBuffer, encrypted]).toString('base64');
+//   const cipher = crypto.createCipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+//   let encrypted = Buffer.concat([cipher.update(JSON.stringify(text), 'utf8'), cipher.final()]);
+//   return Buffer.concat([ivBuffer, encrypted]).toString('base64');
+// }
+
+function encrypt(plainText, key) {
+  var ivBuffer   = Buffer.from([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+var iv         = ivBuffer.slice(0, 16);
+  const message  = Buffer.from(iv+plainText);
+  const cipher   = crypto.createCipheriv('aes-128-cbc',key, iv);
+  let encrypted  = cipher.update(message, 'hex', 'base64');
+  encrypted     += cipher.final('base64');
+  return encrypted;
+}
+
+function decrypt(messagebase64, key, plainText) {
+	const data= Buffer.from(messagebase64, 'base64');
+	const decipher = crypto.createDecipheriv('aes-128-cbc', key, data.slice(0,16));
+	let decrypted  = decipher.update(data.slice(16));
+	decrypted     += decipher.final();
+	return decrypted;
 }
 
 
@@ -28,16 +46,16 @@ function encrypt(key, text) {
 
 
 
-function decrypt(key, encrypted) {
-  const keyBuffer = Buffer.from(key, 'hex');
-  const encryptedBuffer = Buffer.from(encrypted, 'base64');
-  const ivBuffer = encryptedBuffer.slice(0, 16);
-  const ciphertextBuffer = encryptedBuffer.slice(16);
-  const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
-  let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
-}
+// function decrypt(key, encrypted) {
+//   const keyBuffer = Buffer.from(key, 'hex');
+//   const encryptedBuffer = Buffer.from(encrypted, 'base64');
+//   const ivBuffer = encryptedBuffer.slice(0, 16);
+//   const ciphertextBuffer = encryptedBuffer.slice(16);
+//   const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+//   let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
+//   decrypted += decipher.final('utf8');
+//   return decrypted;
+// }
 
 exports.verifyVPA = async (req, res) => {
   console.log("Request Body:", req.body);
@@ -61,7 +79,7 @@ exports.verifyVPA = async (req, res) => {
   console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
 
   // Encrypt the VerifyVPARequestBody parameter
-  const encryptedBody = encrypt(keyBuffer,VerifyVPARequestBody);
+  const encryptedBody = encrypt(VerifyVPARequestBody,keyBuffer);
 
 
   // Define the API endpoint
@@ -109,7 +127,11 @@ exports.verifyVPA = async (req, res) => {
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
     const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBody;
-    const decryptedResponseBody = decrypt(keyBuffer,encryptedResponseBody);
+    //const decryptedResponseBody = decrypt(keyBuffer,encryptedResponseBody);
+
+    // var decryptedCipherText = decrypt(cipherText, keyBase64, plainText);
+
+    const decryptedResponseBody = decrypt(encryptedBody, keyBuffer, encryptedResponseBody);
 
 
 
