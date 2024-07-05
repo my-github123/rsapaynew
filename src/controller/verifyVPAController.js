@@ -47,15 +47,22 @@ function encrypt(key, text) {
 
 
 function decrypt(key, encrypted) {
+  if (!key || !encrypted) {
+    throw new Error("Both key and encrypted arguments must be provided and be of type string.");
+  }
+  
   const keyBuffer = Buffer.from(key, 'hex');
   const encryptedBuffer = Buffer.from(encrypted, 'base64');
   const ivBuffer = encryptedBuffer.slice(0, 16);
   const ciphertextBuffer = encryptedBuffer.slice(16);
   const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+  
   let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
   decrypted += decipher.final('utf8');
+  
   return decrypted;
 }
+
 
 exports.verifyVPA = async (req, res) => {
   console.log("Request Body:", req.body);
@@ -127,7 +134,12 @@ exports.verifyVPA = async (req, res) => {
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
     const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBody;
-    const decryptedResponseBody = decrypt(keyBuffer,encryptedResponseBody);
+    try {
+      const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
+      console.log(decryptedResponseBody);
+    } catch (error) {
+      console.error("Error decrypting:", error.message);
+    }
 
     // var decryptedCipherText = decrypt(cipherText, keyBase64, plainText);
 
