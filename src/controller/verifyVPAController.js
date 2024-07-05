@@ -32,30 +32,30 @@ function encrypt(key, text) {
 //   return encrypted;
 // }
 
-function decrypt(messagebase64, key, plainText) {
-	const data= Buffer.from(messagebase64, 'base64');
-	const decipher = crypto.createDecipheriv('aes-128-cbc', key, data.slice(0,16));
-	let decrypted  = decipher.update(data.slice(16));
-	decrypted     += decipher.final();
-	return decrypted;
-}
-
-
-
-
-
-
-
-// function decrypt(key, encrypted) {
-//   const keyBuffer = Buffer.from(key, 'hex');
-//   const encryptedBuffer = Buffer.from(encrypted, 'base64');
-//   const ivBuffer = encryptedBuffer.slice(0, 16);
-//   const ciphertextBuffer = encryptedBuffer.slice(16);
-//   const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
-//   let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
-//   decrypted += decipher.final('utf8');
-//   return decrypted;
+// function decrypt(messagebase64, key, plainText) {
+// 	const data= Buffer.from(messagebase64, 'base64');
+// 	const decipher = crypto.createDecipheriv('aes-128-cbc', key, data.slice(0,16));
+// 	let decrypted  = decipher.update(data.slice(16));
+// 	decrypted     += decipher.final();
+// 	return decrypted;
 // }
+
+
+
+
+
+
+
+function decrypt(key, encrypted) {
+  const keyBuffer = Buffer.from(key, 'hex');
+  const encryptedBuffer = Buffer.from(encrypted, 'base64');
+  const ivBuffer = encryptedBuffer.slice(0, 16);
+  const ciphertextBuffer = encryptedBuffer.slice(16);
+  const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+  let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
 
 exports.verifyVPA = async (req, res) => {
   console.log("Request Body:", req.body);
@@ -127,7 +127,7 @@ exports.verifyVPA = async (req, res) => {
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
     const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBody;
-    //const decryptedResponseBody = decrypt(keyBuffer,encryptedResponseBody);
+    const decryptedResponseBody = decrypt(keyBuffer,encryptedResponseBody);
 
     // var decryptedCipherText = decrypt(cipherText, keyBase64, plainText);
 
@@ -139,7 +139,7 @@ exports.verifyVPA = async (req, res) => {
     const responseBody = {
       VerifyVPAResponse: {
         SubHeader: response.data.VerifyVPAResponse.SubHeader,
-        VerifyVPAResponseBody: encryptedResponseBody,
+        VerifyVPAResponseBody: decryptedResponseBody,
       }
     };
 
