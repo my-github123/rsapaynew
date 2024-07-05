@@ -79,7 +79,7 @@ exports.verifyVPA = async (req, res) => {
   console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
 
   // Encrypt the VerifyVPARequestBody parameter
-  const encryptedBody = encrypt(VerifyVPARequestBody,keyBuffer);
+  const encryptedBody = encrypt(keyBuffer,VerifyVPARequestBody);
 
 
   // Define the API endpoint
