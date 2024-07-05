@@ -118,6 +118,8 @@ exports.verifyVPA = async (req, res) => {
    const body=JSON.stringify(apiBody);
 
    console.log(body,"BODY IS FBERE..");
+
+   console.log(encryptedBody,"ENCRYPTED BODY OIS THERE...");
  
 
     // Make the POST request to the external API with headers and host configuration
@@ -133,10 +135,12 @@ exports.verifyVPA = async (req, res) => {
     console.log(response,"response is there.....");
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
-    const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBody;
+    const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
     try {
       const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
       console.log(decryptedResponseBody);
+
+      console.log(decryptedResponseBody,"decrypted body is there.....");
     } catch (error) {
       console.error("Error decrypting:", error.message);
     }
