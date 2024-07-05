@@ -6,6 +6,8 @@ const https = require('https');
 const crypto = require("crypto");
 
 
+
+
 function encrypt(key, text) {
   const keyBuffer = Buffer.from(key, 'hex');
    const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
@@ -37,11 +39,16 @@ const transferPayment = async (req, res) => {
       });
     }
 
+
+ 
+
     const keyAsHexString = 'D8ABA26A5EA3126758F4F9A593BC573B';
 
     // Convert hexadecimal string to Buffer
     const keyBuffer = Buffer.from(keyAsHexString, 'hex');
-  
+
+
+    
   
     
     console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
@@ -76,6 +83,8 @@ const transferPayment = async (req, res) => {
       };
 
       const body=JSON.parse(apiBody);
+
+      console.log(body,"BODY IS THERE.............................");
   
       // Make the POST request to the external API with headers and host configuration
       const response = await axios.post(apiUrl, body, {
