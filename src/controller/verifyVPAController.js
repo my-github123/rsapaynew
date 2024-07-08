@@ -78,7 +78,7 @@ exports.verifyVPA = async (req, res) => {
     });
   }
 
-  const keyAsHexString = 'D8ABA26A5EA3126758F4F9A593BC573B';
+  const keyAsHexString ='D8ABA26A5EA3126758F4F9A593BC573B';
 
   // Convert hexadecimal string to Buffer
   const keyBuffer = Buffer.from(keyAsHexString, 'hex');
@@ -92,7 +92,6 @@ exports.verifyVPA = async (req, res) => {
   
   console.log(VerifyVPARequestBody,"TransaferPaymentReq..."); // Output the Buffer
 
-  console.log(md5Hash,"MD 5 HASH");
 
   
   console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
