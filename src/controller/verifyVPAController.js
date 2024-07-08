@@ -83,14 +83,14 @@ const verifyVPA = async (req, res) => {
   // Convert hexadecimal string to Buffer
   const keyBuffer = Buffer.from(keyAsHexString, 'hex');
 
-  const concatenatedString =VerifyVPARequestBody.merchId +VerifyVPARequestBody.merchChanId +VerifyVPARequestBody.customerVpa +VerifyVPARequestBody.corpCode +VerifyVPARequestBody.channelId;
-  const md5Hash = crypto.createHash('md5').update(concatenatedString).digest('hex');
+  // const concatenatedString =VerifyVPARequestBody.merchId +VerifyVPARequestBody.merchChanId +VerifyVPARequestBody.customerVpa +VerifyVPARequestBody.corpCode +VerifyVPARequestBody.channelId;
+  // const md5Hash = crypto.createHash('md5').update(concatenatedString).digest('hex');
 
-  console.log(md5Hash);
+  // console.log(md5Hash);
 
-  VerifyVPARequestBody.checksum= md5Hash;
+  // VerifyVPARequestBody.checksum= md5Hash;
   
-  console.log(VerifyVPARequestBody,"TransaferPaymentReq..."); // Output the Buffer
+  // console.log(VerifyVPARequestBody,"TransaferPaymentReq..."); // Output the Buffer
 
 
   
