@@ -19,7 +19,7 @@ const transactionRoutes = require("./src/routes/transactionRoutes");
 const serviceList = require("./src/routes/serviceRoutes");
 const debitRoutes = require("./src/routes/debitRoutes");
 const debitCreditRoutes = require("./src/routes/getDebitCreditRoutes");
-const verifyVPARoute = require('./src/routes/verifyVPARoutes');
+// const verifyVPARoute = require('./src/routes/verifyVPARoutes');
 
 
 const app = express();
@@ -59,7 +59,7 @@ app.use("/rsa-trg", serviceList);
 app.use("/rsa-trg", debitRoutes);
 app.use("/rsa-trg", debitCreditRoutes);
 // Use the verifyVPA route for handling /verifyVPA requests
-app.use("/rsa-trg", verifyVPARoute);
+// app.use("/rsa-trg", verifyVPARoute);
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
