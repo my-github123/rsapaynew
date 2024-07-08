@@ -66,7 +66,7 @@ function decrypt(key, encrypted) {
 }
 
 
-exports.verifyVPA = async (req, res) => {
+const verifyVPA = async (req, res) => {
   console.log("Request Body:", req.body);
 
   const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
@@ -184,6 +184,8 @@ exports.verifyVPA = async (req, res) => {
   }
 };
 
-
+module.exports = {
+  verifyVPA,
+};
 
 //https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/payments/transfer-payment
