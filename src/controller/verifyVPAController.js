@@ -149,14 +149,7 @@ const verifyVPA = async (req, res) => {
     const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
    
       const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
-      console.log(decryptedResponseBody);
-
-      console.log(decryptedResponseBody,"decrypted body is there.....");
-   
-
-    var decryptedCipherText = decrypt(cipherText, keyBase64, plainText);
-
-   const decryptedResponseBody = decrypt(encryptedBody, keyBuffer, encryptedResponseBody);
+ 
 
 
 
@@ -164,7 +157,7 @@ const verifyVPA = async (req, res) => {
     const responseBody = {
       VerifyVPAResponse: {
         SubHeader: response.data.VerifyVPAResponse.SubHeader,
-       // VerifyVPAResponseBody: decryptedResponseBody,
+        VerifyVPAResponseBody: decryptedResponseBody,
       }
     };
 
