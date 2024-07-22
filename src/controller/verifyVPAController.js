@@ -90,7 +90,7 @@ const verifyVPA = async (req, res) => {
 
   VerifyVPARequestBody.checksum= md5Hash;
   
-  console.log(VerifyVPARequestBody,"TransaferPaymentReq..."); // Output the Buffer
+  console.log(VerifyVPARequestBody.checksum,"TransaferPaymentReq..."); // Output the Buffer
 
 
   
@@ -116,6 +116,15 @@ const verifyVPA = async (req, res) => {
       pfx: pfx,
       passphrase: passphrase,
     });
+
+    const api={
+        VerifyVPARequest: {
+            SubHeader,
+            VerifyVPARequestBody,
+          }
+    }
+
+    console.log(api,"API data is there.......................");
 
     // Define the request body with encrypted data
     const apiBody = {
@@ -148,7 +157,7 @@ const verifyVPA = async (req, res) => {
      // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
     const encryptedResponseBody = response.data.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
    
-      const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
+    const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
  
 
 

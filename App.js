@@ -29,14 +29,14 @@ app.use(express.json());
 // Enable CORS for all routes
 app.use(cors());
 
-// sequelize
-//   .sync()
-//   .then(() => {
-//     console.log("Connection has been established successfully.");
-//   })
-//   .catch((e) => {
-//     console.error("Unable to connect to the database:", e);
-//   });
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((e) => {
+    console.error("Unable to connect to the database:", e);
+  });
 
 // Routes
 // user training portal routes
