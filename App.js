@@ -58,7 +58,7 @@ app.use("/rsa-trg", serviceList);
 // RSA user routes
 app.use("/rsa-trg", debitRoutes);
 app.use("/rsa-trg", debitCreditRoutes);
- app.use("/rsa-trg",verifyVPARoute);
+app.use("/rsa-trg",verifyVPARoute);
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {

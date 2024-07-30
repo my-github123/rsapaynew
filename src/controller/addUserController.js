@@ -75,7 +75,7 @@ exports.addUser = async (req, res) => {
 // };
 
 exports.getUsers = async (req, res) => {
-  console.log("runinsubhdshdbhhsbdhsbdb");
+
   try {
     const { adminId } = req.query;
     let users;

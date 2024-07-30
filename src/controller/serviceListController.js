@@ -1,7 +1,7 @@
 const ServiceList = require("../model/ServiceList");
 
 exports.createService = async (req, res) => {
-  console.log("is errwe");
+  console.log("create service is there.....");
   try {
     const { serviceType } = req.body;
     if (!serviceType) {
