@@ -15,7 +15,7 @@ function encrypt(key, text) {
   const keyBuffer = Buffer.from(key, 'hex');
    const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
 
- // const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E]);
+
   
  
   
@@ -70,20 +70,18 @@ const verifyVPA = async (req, res) => {
   // Convert hexadecimal string to Buffer
   const keyBuffer = Buffer.from(keyAsHexString, 'hex');
 
-  const concatenatedString =VerifyVPARequestBody.merchId +VerifyVPARequestBody.merchChanId +VerifyVPARequestBody.customerVpa +VerifyVPARequestBody.corpCode +VerifyVPARequestBody.channelId;
-  const md5Hash = crypto.createHash('md5').update(concatenatedString).digest('hex');
+  // const concatenatedString =VerifyVPARequestBody.merchId +VerifyVPARequestBody.merchChanId +VerifyVPARequestBody.customerVpa +VerifyVPARequestBody.corpCode +VerifyVPARequestBody.channelId;
+  // const md5Hash = crypto.createHash('md5').update(concatenatedString).digest('hex');
 
-  console.log(md5Hash);
+  // console.log(md5Hash);
 
-  VerifyVPARequestBody.checksum= md5Hash;
+  // VerifyVPARequestBody.checksum= md5Hash;
   
-  console.log(VerifyVPARequestBody.checksum,"TransaferPaymentReq..."); // Output the Buffer
+  // console.log(VerifyVPARequestBody.checksum,"TransaferPaymentReq..."); // Output the Buffer
 
 
   
-  console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
-  const calling=decrypt(keyBuffer,"Yf6AI5Bir06S+kW09NbJv/GoIjMguSNONL0vwJty+YIRbyh+VKVY59LXh4OLFMVvQBjQcPXaAvyxWMKpZPw6IqFfTJmHXo4ptH6izm+K590=");
-  console.log(calling,"CALLING THAT ONE");
+
 
   // Encrypt the VerifyVPARequestBody parameter
   const encryptedBody = encrypt(keyBuffer,VerifyVPARequestBody);
@@ -103,24 +101,12 @@ const verifyVPA = async (req, res) => {
     const pfx = fs.readFileSync(pfxPath);
 
     // Create an HTTPS agent with the PFX certificate
-     // Create an HTTPS agent with the PFX certificate
-  const httpsAgent = new https.Agent({
-    pfx: pfx,
-    passphrase: passphrase,
-    secureProtocol: 'TLS_method', // Adjust protocol if needed
-    secureOptions: require('crypto').constants.SSL_OP_NO_TLSv1_1 // Adjust options if needed
-  });
+    const httpsAgent = new https.Agent({
+      pfx: pfx,
+      passphrase: passphrase,
+    });
 
-    // const api={
-    //     VerifyVPARequest: {
-    //         SubHeader,
-    //         VerifyVPARequestBody,
-    //       }
-    // }
-
-    // console.log(api,"API data is there.......................");
-
-    // Define the request body with encrypted data
+  
     const apiBody = {
       VerifyVPARequest: {
         SubHeader,
