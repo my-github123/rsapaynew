@@ -5,10 +5,7 @@ const path = require("path");
 const crypto = require("crypto");
 
 
-// Encryption algorithm and key size for AES-128-CBC
-// const algorithm = "aes-128-cbc";
-// const key = crypto.randomBytes(16); // 16 bytes for AES-128
-// const iv = crypto.randomBytes(16); // Initialization vector
+
 
 
 
@@ -24,23 +21,6 @@ function encrypt(key, text) {
   return Buffer.concat([ivBuffer, encrypted]).toString('base64');
 }
 
-// function encrypt(plainText, key) {
-//   var ivBuffer   = Buffer.from([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
-// var iv         = ivBuffer.slice(0, 16);
-//   const message  = Buffer.from(iv+plainText);
-//   const cipher   = crypto.createCipheriv('aes-128-cbc',key, iv);
-//   let encrypted  = cipher.update(message, 'hex', 'base64');
-//   encrypted     += cipher.final('base64');
-//   return encrypted;
-// }
-
-// function decrypt(messagebase64, key, plainText) {
-// 	const data= Buffer.from(messagebase64, 'base64');
-// 	const decipher = crypto.createDecipheriv('aes-128-cbc', key, data.slice(0,16));
-// 	let decrypted  = decipher.update(data.slice(16));
-// 	decrypted     += decipher.final();
-// 	return decrypted;
-// }
 
 
 
@@ -117,14 +97,14 @@ const verifyVPA = async (req, res) => {
       passphrase: passphrase,
     });
 
-    const api={
-        VerifyVPARequest: {
-            SubHeader,
-            VerifyVPARequestBody,
-          }
-    }
+    // const api={
+    //     VerifyVPARequest: {
+    //         SubHeader,
+    //         VerifyVPARequestBody,
+    //       }
+    // }
 
-    console.log(api,"API data is there.......................");
+    // console.log(api,"API data is there.......................");
 
     // Define the request body with encrypted data
     const apiBody = {
@@ -139,7 +119,7 @@ const verifyVPA = async (req, res) => {
 
    console.log(body,"BODY IS FBERE..");
 
-   console.log(encryptedBody,"ENCRYPTED BODY OIS THERE...");
+   console.log(encryptedBody,"ENCRYPTED BODY OIS THERE...?");
  
 
     // Make the POST request to the external API with headers and host configuration

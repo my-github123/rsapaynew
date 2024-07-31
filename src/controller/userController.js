@@ -6,29 +6,15 @@ const { Sequelize } = require("sequelize");
 const ExcelJS = require('exceljs');
 const sequelize = require('../config/db');
 
-// exports.registerUser = async (req, res) => {
-//   try {
-//     const { username, email, password, phoneNumber, address } = req.body;
-//     console.log(req.body, "BODY IS THERE....");
-
-//     // Hash the password
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(password, salt);
-
-//     const newUser = new User({
-//       username,
-//       email,
-//       password: hashedPassword,
-//       phoneNumber,
-//       address,
-//     });
-
-//     const savedUser = await newUser.save();
-//     res.status(201).json(savedUser);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+exports.registerUser = async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'An error occurred while creating the user.' });
+  }
+};
 
 exports.loginUser = async (req, res) => {
   try {
