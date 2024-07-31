@@ -14,6 +14,9 @@ function encrypt(key, text) {
   console.log(text,"TEXT IS THERE.................................");
   const keyBuffer = Buffer.from(key, 'hex');
    const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
+
+ // const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E]);
+  
  
   
 
@@ -89,6 +92,8 @@ const verifyVPA = async (req, res) => {
   // Define the API endpoint
   const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
 
+  
+
   // Path to your PFX certificate and passphrase
   const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
   const passphrase = "Year@2024"; // Replace with your actual passphrase
@@ -98,10 +103,13 @@ const verifyVPA = async (req, res) => {
     const pfx = fs.readFileSync(pfxPath);
 
     // Create an HTTPS agent with the PFX certificate
-    const httpsAgent = new https.Agent({
-      pfx: pfx,
-      passphrase: passphrase,
-    });
+     // Create an HTTPS agent with the PFX certificate
+  const httpsAgent = new https.Agent({
+    pfx: pfx,
+    passphrase: passphrase,
+    secureProtocol: 'TLS_method', // Adjust protocol if needed
+    secureOptions: require('crypto').constants.SSL_OP_NO_TLSv1_1 // Adjust options if needed
+  });
 
     // const api={
     //     VerifyVPARequest: {
@@ -158,18 +166,25 @@ const verifyVPA = async (req, res) => {
 
     // Send the response from the external API back to the client
     res.status(200).json(responseBody);
-  } catch (error) {
-    const errorMessage = error.response?.data || error.message;
-
-    console.error("Error:", error.response?.status, errorMessage);
-
+  }
+  catch (error) {
+    console.error("Error Details:", {
+      message: error.message,
+      stack: error.stack,
+      response: error.response ? {
+        status: error.response.status,
+        data: error.response.data,
+      } : null,
+    });
+  
     // Send an error response if the API call fails
     return res.status(500).json({
       message: "Error occurred",
-      error: errorMessage,
+      error: error.message,
       status: error.response?.status || 500,
     });
   }
+  
 };
 
 module.exports = {
