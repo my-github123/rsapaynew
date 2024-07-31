@@ -13,7 +13,8 @@ function encrypt(key, text) {
 
   console.log(text,"TEXT IS THERE.................................");
   const keyBuffer = Buffer.from(key, 'hex');
-   const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
+  //  const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
+  const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12]);
   
 
   const cipher = crypto.createCipheriv('aes-128-cbc', keyBuffer, ivBuffer);
@@ -51,6 +52,9 @@ const verifyVPA = async (req, res) => {
 
   const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
+
+  
+
   if (!SubHeader || !VerifyVPARequestBody) {
     return res.status(400).json({
       message: "Invalid request body",
@@ -75,6 +79,8 @@ const verifyVPA = async (req, res) => {
 
   
   console.log(keyBuffer,"KEY BUFFER IS THERE..."); // Output the Buffer
+  const calling=decrypt(keyBuffer,"Yf6AI5Bir06S+kW09NbJv/GoIjMguSNONL0vwJty+YIRbyh+VKVY59LXh4OLFMVvQBjQcPXaAvyxWMKpZPw6IqFfTJmHXo4ptH6izm+K590=");
+  console.log(calling,"CALLING THAT ONE");
 
   // Encrypt the VerifyVPARequestBody parameter
   const encryptedBody = encrypt(keyBuffer,VerifyVPARequestBody);
