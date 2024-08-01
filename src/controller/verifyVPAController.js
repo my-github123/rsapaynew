@@ -51,7 +51,7 @@ function decrypt(key, encrypted) {
 
 
 const verifyVPA = async (req, res) => {
-  console.log("Request Body:", req.body);
+  console.log("Request Body is there........:", req.body);
 
   const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
