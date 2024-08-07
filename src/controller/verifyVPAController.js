@@ -70,7 +70,11 @@ const verifyVPA = async (req, res) => {
   const encryptedBody = encrypt(keyBuffer, VerifyVPARequestBody);
 
   // Define the API endpoint
+  //const apiUrl ="https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
+
   const apiUrl ="https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
+
+  
 
   
   // Path to your PFX certificate and passphrase
@@ -105,11 +109,11 @@ const verifyVPA = async (req, res) => {
     console.log(body,"before API HIT.............");
     // Make the POST request to the external API with headers and host configuration
     const response = await axios.post(apiUrl, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-IBM-Client-Id': 'bf21e9bd4ad7ba83c4f04b31c2833302',
-        'X-IBM-Client-Secret': 'd58a28965d3640ffb470dcad05d12395',
-      },
+      // headers: {
+      //   'Content-Type': 'application/json',
+      //   'X-IBM-Client-Id': 'bf21e9bd4ad7ba83c4f04b31c2833302',
+      //   'X-IBM-Client-Secret': 'd58a28965d3640ffb470dcad05d12395',
+      // },
       httpsAgent: httpsAgent, // Pass the HTTPS agent
     });
 
@@ -143,7 +147,7 @@ const verifyVPA = async (req, res) => {
     console.log(pure,"CATCH INSIDE ...");
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from bank API",
+      message: "Error occurred from axis bank API",
       error: error.message,
       status: error.response?.status || 500,
     });
