@@ -120,6 +120,14 @@ const verifyVPA = async (req, res) => {
     
 
     const responseBody = await response.json();
+
+    console.log(response,"RESPONNSE I STHERE...");
+   console.log("----------------------------------------------------------------");
+   
+
+    console.log(responseBody,"response body..");
+    
+    
   
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
@@ -146,7 +154,7 @@ const verifyVPA = async (req, res) => {
     console.log(pure,"CATCH INSIDE ...");
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from axis axis bank API",
+      message: "Error occurred from rahim API",
       error: error.message,
       status: error.response?.status || 500,
     });
