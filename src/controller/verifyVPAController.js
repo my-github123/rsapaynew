@@ -107,7 +107,7 @@ const verifyVPA = async (req, res) => {
    
     console.log(body,"before API HIT.............");
     // Make the POST request to the external API with headers and host configuration
-    const response = await axios.post(apiUrl, body, {
+    var response = await axios.post(apiUrl, body, {
       headers: {
         'Content-Type': 'application/json',
         'X-IBM-Client-Id': 'bf21e9bd4ad7ba83c4f04b31c2833302',
@@ -155,6 +155,8 @@ const verifyVPA = async (req, res) => {
     // Send an error response if the API call fails
     return res.status(500).json({
       message: "Error occurred from rahim API",
+      response:response.data,
+      response1:response,
       error: error.message,
       status: error.response?.status || 500,
     });
