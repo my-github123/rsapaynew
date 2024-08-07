@@ -107,7 +107,7 @@ const verifyVPA = async (req, res) => {
   const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
   const passphrase = "Year@2024"; // Replace with your actual passphrase
 
-  try {
+  // try {
     // Read the PFX file synchronously
     const pfx = fs.readFileSync(pfxPath);
 
@@ -170,7 +170,7 @@ const verifyVPA = async (req, res) => {
 
     // Send the response from the external API back to the client
     res.status(200).json(responseBody);
-  } catch (error) {
+  // } catch (error) {
     const errorMessage = error.response?.data || error.message;
 
     console.error("Error:", error.response?.status, errorMessage);
@@ -181,7 +181,7 @@ const verifyVPA = async (req, res) => {
       error: errorMessage,
       status: error.response?.status || 500,
     });
-  }
+  // }
 };
 
 module.exports = {
