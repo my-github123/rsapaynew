@@ -6,7 +6,7 @@ const crypto = require("crypto");
 const fetch = require("node-fetch");
 
 function encrypt(key, text) {
-  console.log(text, "TEXT IS THERE.................................");
+ 
   const keyBuffer = Buffer.from(key, "hex");
   const ivBuffer = Buffer.from([
     0x8e, 0x12, 0x39, 0x9c, 0x07, 0x72, 0x6f, 0x5a, 0x8e, 0x12, 0x39, 0x9c,
@@ -41,7 +41,7 @@ function decrypt(key, encrypted) {
 }
 
 const verifyVPA = async (req, res) => {
-  console.log("Request Body is there........:", req.body);
+  
 
   const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
@@ -62,7 +62,7 @@ const verifyVPA = async (req, res) => {
     .update(concatenatedString)
     .digest("hex");
 
-  console.log(md5Hash);
+
 
   VerifyVPARequestBody.checksum = md5Hash;
 
@@ -76,6 +76,8 @@ const verifyVPA = async (req, res) => {
   // Path to your PFX certificate and passphrase
   const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
   const passphrase = "Year@2024"; // Replace with your actual passphrase
+
+  
 
   try {
     // Read the PFX file synchronously
@@ -96,9 +98,11 @@ const verifyVPA = async (req, res) => {
 
     const body = JSON.stringify(apiBody);
 
-    console.log(body, "BODY IS THERE..");
-    console.log(encryptedBody, "ENCRYPTED BODY IS THERE...?");
+    var pure=JSON.stringify(apiBody);
 
+    
+   
+    console.log(body,"before API HIT.............");
     // Make the POST request to the external API with headers and host configuration
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -111,8 +115,11 @@ const verifyVPA = async (req, res) => {
       agent: httpsAgent, // Pass the HTTPS agent
     });
 
+    console.log(body,"AFTER API HIT.............");
+    
+
     const responseBody = await response.json();
-    console.log(responseBody, "Response is there.....");
+  
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
     const encryptedResponseBody =
@@ -128,20 +135,14 @@ const verifyVPA = async (req, res) => {
       },
     };
 
+    console.log(body,"MIDDLE ...");
+    
+
     // Send the response from the external API back to the client
     res.status(200).json(finalResponse);
   } catch (error) {
-    console.error("Error Details:", {
-      message: error.message,
-      stack: error.stack,
-      response: error.response
-        ? {
-            status: error.response.status,
-            data: error.response.data,
-          }
-        : null,
-    });
-
+   
+    console.log(pure,"CATCH INSIDE ...");
     // Send an error response if the API call fails
     return res.status(500).json({
       message: "Error occurred from axis bank API",
