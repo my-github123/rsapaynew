@@ -69,8 +69,7 @@ const verifyVPA = async (req, res) => {
   // Encrypt the VerifyVPARequestBody parameter
   const encryptedBody = encrypt(keyBuffer, VerifyVPARequestBody);
 
-  // Define the API endpoint
-  //const apiUrl ="https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
+
 
   const apiUrl ="https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
 
@@ -147,7 +146,7 @@ const verifyVPA = async (req, res) => {
     console.log(pure,"CATCH INSIDE ...");
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from axis bank API",
+      message: "Error occurred from axis axis bank API",
       error: error.message,
       status: error.response?.status || 500,
     });
