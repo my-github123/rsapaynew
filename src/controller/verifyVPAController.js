@@ -154,7 +154,7 @@ const verifyVPA = async (req, res) => {
     console.log(pure,"CATCH INSIDE ...");
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from rahim API",
+      message: "Error occurred from API",
       error: error.message,
       status: error.response?.status || 500,
     });
