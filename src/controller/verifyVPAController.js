@@ -74,9 +74,7 @@ const verifyVPA = async (req, res) => {
     "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
 
   // Path to your PFX certificate and passphrase
-   const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
-
-
+  const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
   const passphrase = "Year@2024"; // Replace with your actual passphrase
 
   try {
@@ -89,26 +87,22 @@ const verifyVPA = async (req, res) => {
       passphrase: passphrase,
     });
 
-    // const apiBody = {
-    //   VerifyVPARequest: {
-    //     SubHeader,
-    //     VerifyVPARequestBodyEncrypted: encryptedBody,
-    //   },
-    // };
+    const apiBody = {
+      VerifyVPARequest: {
+        SubHeader,
+        VerifyVPARequestBodyEncrypted: encryptedBody,
+      },
+    };
 
-    // const body = JSON.stringify(apiBody);
+    const body = JSON.stringify(apiBody);
 
-    // console.log(body, "BODY IS THERE..");
+    console.log(body, "BODY IS THERE..");
     console.log(encryptedBody, "ENCRYPTED BODY IS THERE...?");
-
-    const apiBody={"VerifyVPARequest":{"SubHeader":{"requestUUID":"ABC123","serviceRequestId":"OpenAPI","serviceRequestVersion":"1.0","channelId":"KIMOBILITY"},"VerifyVPARequestBodyEncrypted":"jhI5nAdyb1qOEjmcB3JvWiTF14NcPTUWmQUMdngOg9VLPHFMPI22fD23vKqJKgrhNoHJabVK3xbGcbVX/+7+dwRQCx7q/5ESWy6TxTJy0KPq2fF8sL19Inhm79mgOxPvNXgJrtZDg0NO9ZUwV1us0aaSIQqUb/q/sTTYOG3w5oPsrOxDmnOxl3pD5vlNNMvQ9+ENMfCc/tnHDS7aEYuGeHbI4vyTKi6XGLaT04Ngjy6YX4Ncxr8xggUuoC4vMYgieRWZnkiOL2BmqB9QgkDH6A=="}}
-
-    
 
     // Make the POST request to the external API with headers and host configuration
     const response = await fetch(apiUrl, {
       method: "POST",
-      body: apiBody,
+      body: body,
       headers: {
         "Content-Type": "application/json",
         "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
@@ -150,7 +144,7 @@ const verifyVPA = async (req, res) => {
 
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from bank API",
+      message: "Error occurred from axis bank API",
       error: error.message,
       status: error.response?.status || 500,
     });
