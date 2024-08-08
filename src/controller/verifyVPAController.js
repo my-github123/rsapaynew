@@ -117,6 +117,8 @@ const verifyVPA = async (req, res) => {
            'X-IBM-Client-Secret': 'd58a28965d3640ffb470dcad05d12395',
         },
         httpsAgent: httpsAgent, // Pass the HTTPS agent
+        timeout: 60000, // Timeout in milliseconds
+
       });
     
       console.log(response.data, "AFTER API HIT.............");
@@ -143,7 +145,7 @@ const verifyVPA = async (req, res) => {
       
     
     } catch (error) {
-      console.error("Error occurred from axis axis bank API", error.message);
+      console.error("Error occurred from bank API", error.message);
     }
     
   } catch (error) {
