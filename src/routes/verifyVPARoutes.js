@@ -61,7 +61,7 @@ router.post('/verifyVPA', async (req, res) => {
         const encryptedBody = encrypt(keyBuffer, VerifyVPARequestBody);
 
         const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
-        const passphrase = process.env.PASSPHRASE; // Use environment variable for passphrase
+        const passphrase = "Year@2024"; // Replace with your actual passphrase
 
         const pfx = fs.readFileSync(pfxPath);
         const httpsAgent = new https.Agent({
