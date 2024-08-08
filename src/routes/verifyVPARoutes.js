@@ -85,10 +85,13 @@ router.post('/verifyVPA', async (req, res) => {
       console.log(JSON.stringify(apiBody),"API body");
       
   
-      const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
+     const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
       const response = await axios.post(apiUrl, JSON.stringify(apiBody), {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
+          "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
+
         },
         httpsAgent
       });
