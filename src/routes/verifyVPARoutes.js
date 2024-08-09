@@ -78,7 +78,8 @@ router.post('/verifyVPA', async (req, res) => {
 
         console.log(JSON.stringify(apiBody), "API body");
 
-          const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
+          const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA"
+       
           const response = await axios.post(apiUrl, apiBody, {
             headers: {
                 'Content-Type': 'application/json',
