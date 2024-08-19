@@ -1,31 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const os = require('os');
+const axios = require("axios");
 
 
-function getServerIp() {
-    const networkInterfaces = os.networkInterfaces();
-    for (const interfaceName in networkInterfaces) {
-        const interface = networkInterfaces[interfaceName];
-        for (const i in interface) {
-            const alias = interface[i];
-            if (alias.family === 'IPv4' && !alias.internal) {
-                return alias.address; // Returns the server's IPv4 address
-            }
-        }
+
+
+  async function getPublicIp() {
+    try {
+        const response = await axios.get('https://api.ipify.org?format=json');
+        return response.data.ip;
+    } catch (error) {
+        console.error('Error fetching public IP:', error);
+        return 'Unable to retrieve public IP';
     }
-    return '127.0.0.1'; // Fallback to localhost if no external IP is found
-  }
+}
 
   
-router.get('/getServer', (req, res) => {
+router.get('/getServer', async(req, res) => {
   
-    const serverIp = getServerIp();
+    const publicIp = await getPublicIp();
 
-     console.log('Server IP:', serverIp);              // Logs the server's IP address
+          
 
     
-    res.status(200).json({messege:serverIp})
+    res.status(200).json({messege:publicIp})
 });
 
 module.exports=router;
