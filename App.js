@@ -20,6 +20,7 @@ const serviceList = require("./src/routes/serviceRoutes");
 const debitRoutes = require("./src/routes/debitRoutes");
 const debitCreditRoutes = require("./src/routes/getDebitCreditRoutes");
 const verifyVPARoute = require('./src/routes/verifyVPARoutes');
+const ipRoutes=require("./src/routes/ipRoutes")
 
 
 const app = express();
@@ -46,6 +47,9 @@ app.use("/rsa-trg", videoRoutes);
 app.use("/rsa-trg", videoInteraction);
 app.use("/rsa-trg", likeRoutes);
 
+
+
+
 //admin portal routes
 app.use("/rsa-trg", adminVideoRoutes);
 app.use("/rsa-trg", GCPUploadRoutes);
@@ -59,6 +63,9 @@ app.use("/rsa-trg", serviceList);
 app.use("/rsa-trg", debitRoutes);
 app.use("/rsa-trg", debitCreditRoutes);
 app.use("/rsa-trg",verifyVPARoute);
+
+
+app.use("/rsa-trg",ipRoutes)
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
