@@ -35,7 +35,7 @@ function decrypt(key, encrypted) {
     return decrypted;
 }
 
-router.get('/verifyVPA', async (req, res) => {
+router.post('/verifyVPA', async (req, res) => {
 //  try {
        const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
