@@ -36,7 +36,7 @@ function decrypt(key, encrypted) {
 }
 
 router.post('/verifyVPA', async (req, res) => {
- try {
+//  try {
        const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
         if (!SubHeader || !VerifyVPARequestBody) {
@@ -99,7 +99,7 @@ router.post('/verifyVPA', async (req, res) => {
         console.log(response, "response.......");
 
         res.json(response.data);
-    } catch (error) {
+    // } catch (error) {
         // console.error('Error making API request:', error.message);
         // if (error.response) {
         //     console.error('Response data:', error.response.data);
@@ -109,7 +109,7 @@ router.post('/verifyVPA', async (req, res) => {
         console.log(error.message,"error");
         
         res.status(500).json({ message: 'Internal Server Error', error:"unsupported" });
-    }
+    // }
 });
 
 router.post('/transfer-payment', transferPayment);
