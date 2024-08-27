@@ -36,7 +36,7 @@ function decrypt(key, encrypted) {
 }
 
 router.post('/verifyVPA', async (req, res) => {
-//  try {
+ try {
        const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
         if (!SubHeader || !VerifyVPARequestBody) {
@@ -82,12 +82,7 @@ router.post('/verifyVPA', async (req, res) => {
         };
 
         console.log(JSON.stringify(apiBody), "API body");
-
-         
-
-          
-     
-          const response = await axios.get(apiUrl,JSON.stringify(apiBody), {
+        const response = await axios.get(apiUrl,JSON.stringify(apiBody), {
             headers: {
                 'Content-Type': 'application/json',
                 "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
@@ -99,17 +94,11 @@ router.post('/verifyVPA', async (req, res) => {
         console.log(response, "response.......");
 
         res.json(response.data);
-    // } catch (error) {
-        // console.error('Error making API request:', error.message);
-        // if (error.response) {
-        //     console.error('Response data:', error.response.data);
-        //     console.error('Response status:', error.response.status);
-        //     console.error('Response headers:', error.response.headers);
-        // }
-        console.log(error.message,"error");
+    } catch (error) {
+      
         
-        res.status(500).json({ message: 'Internal Server Error', error:"unsupported" });
-    // }
+        res.status(500).json({ message: 'Internal Server Error', error:error.messege });
+    }
 });
 
 router.post('/transfer-payment', transferPayment);
