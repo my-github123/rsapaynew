@@ -36,8 +36,8 @@ function decrypt(key, encrypted) {
 }
 
 router.post('/verifyVPA', async (req, res) => {
- try {
-       const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
+    try {
+        const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
         if (!SubHeader || !VerifyVPARequestBody) {
             return res.status(400).json({
@@ -60,10 +60,8 @@ router.post('/verifyVPA', async (req, res) => {
 
         const encryptedBody = encrypt(keyBuffer, VerifyVPARequestBody);
 
-         const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
-       
-
-         const passphrase = "Year@2024"; // Replace with your actual passphrase
+        const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
+        const passphrase = "Year@2024"; // Replace with your actual passphrase
 
         const pfx = fs.readFileSync(pfxPath);
         const httpsAgent = new https.Agent({
@@ -71,8 +69,7 @@ router.post('/verifyVPA', async (req, res) => {
             passphrase: passphrase,
         });
 
-       const apiUrl="https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA"
-     
+        const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
 
         const apiBody = {
             VerifyVPARequest: {
@@ -82,24 +79,29 @@ router.post('/verifyVPA', async (req, res) => {
         };
 
         console.log(JSON.stringify(apiBody), "API body");
-        const response = await axios.get(apiUrl,JSON.stringify(apiBody), {
+
+        const response = await axios.post(apiUrl, apiBody, {
             headers: {
                 'Content-Type': 'application/json',
                 "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
-                 "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
+                "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
             },
-           httpsAgent: httpsAgent
+            httpsAgent: httpsAgent
         });
 
-        console.log(response, "response.......");
-
+        console.log(response.data, "response.......");
         res.json(response.data);
     } catch (error) {
-      
-        
-        res.status(500).json({ message: 'Internal Server Error', error:error.messege });
+        console.error("Error occurred:", error.message);
+
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message, // Send the error message
+            stack: error.stack,   // Optionally include the stack trace for debugging purposes
+        });
     }
 });
+
 
 router.post('/transfer-payment', transferPayment);
 router.post('/get-status', getStatus);
