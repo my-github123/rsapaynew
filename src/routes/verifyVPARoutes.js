@@ -36,7 +36,7 @@ function decrypt(key, encrypted) {
 }
 
 router.post('/verifyVPA', async (req, res) => {
-    // try {
+    try {
         const { SubHeader, VerifyVPARequestBody } = req.body.VerifyVPARequest || {};
 
         if (!SubHeader || !VerifyVPARequestBody) {
@@ -91,7 +91,7 @@ router.post('/verifyVPA', async (req, res) => {
 
         console.log(response.data, "response.......");
         res.json(response.data);
-    // } catch (error) {
+    } catch (error) {
         console.error("Error occurred:", error.message);
 
         res.status(500).json({
@@ -99,7 +99,7 @@ router.post('/verifyVPA', async (req, res) => {
             error: error.message, // Send the error message
             stack: error.stack,   // Optionally include the stack trace for debugging purposes
         });
-    // }
+    }
 });
 
 
