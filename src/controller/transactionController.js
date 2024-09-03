@@ -26,7 +26,7 @@ exports.addTransaction = async (req, res) => {
   try {
     const { adminId, userId, addAmount, expDate } = req.body;
 
-    console.log(req.body, "RSDFSD");
+    
 
     // Generate a 6-digit random number
     const transactionId = Math.floor(100000 + Math.random() * 900000);

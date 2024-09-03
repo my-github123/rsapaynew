@@ -46,6 +46,8 @@ const transferPayment = async (req, res) => {
   // Encrypt the TransferPaymentRequestBody parameter
   const encryptedBody = encrypt(keyBuffer, TransferPaymentRequestBody);
 
+
+
   // Define the API endpoint
   const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/payments/transfer-payment";
 
@@ -82,6 +84,8 @@ const transferPayment = async (req, res) => {
               "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
           },
       });
+
+  
 
       // Extract the encrypted response body
       const { TransferPaymentResponse } = response.data;
