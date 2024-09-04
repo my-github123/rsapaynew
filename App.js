@@ -101,6 +101,10 @@ dotenv.config();
 // })
 
 app.get("/",(req,res)=>{
+  res.send("4100...")
+})
+
+app.get("/gettingPort",(req,res)=>{
   res.json("4100...")
 })
 
