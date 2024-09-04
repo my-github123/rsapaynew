@@ -1,7 +1,8 @@
 const express = require("express");
+const app=express();
 const dotenv = require("dotenv");
-const cors = require("cors");
-const crypto = require("crypto");
+// const cors = require("cors");
+// const crypto = require("crypto");
 
 // sudo ss -tulpn | grep LISTEN
 // 3306
@@ -24,16 +25,16 @@ dotenv.config();
 // const debitRoutes = require("./src/routes/debitRoutes");
 // const debitCreditRoutes = require("./src/routes/getDebitCreditRoutes");
 // const verifyVPARoute = require('./src/routes/verifyVPARoutes');
-// const ipRoutes=require("./src/routes/ipRoutes")
+// const ipRoutes = require("./src/routes/ipRoutes");
 
+// const app = express();
 
-const app = express();
+// app.use(express.json());
 
-app.use(express.json());
+// // Enable CORS for all routes
+// app.use(cors());
 
-// Enable CORS for all routes
-app.use(cors());
-
+// // Initialize sequelize
 // sequelize
 //   .sync()
 //   .then(() => {
@@ -43,18 +44,18 @@ app.use(cors());
 //     console.error("Unable to connect to the database:", e);
 //   });
 
-// Routes
-// user training portal routes
+// // Routes
+// // User training portal routes
 // app.use("/rsa-trg", userRoutes);
 // app.use("/rsa-trg", dashboardRoutes);
 // app.use("/rsa-trg", videoRoutes);
 // app.use("/rsa-trg", videoInteraction);
 // app.use("/rsa-trg", likeRoutes);
 
-
+// // Decrypt function
 // function decrypt(key, encrypted) {
 //   if (!key || !encrypted) {
-//       throw new Error("Both key and encrypted arguments must be provided and be of type string.");
+//     throw new Error("Both key and encrypted arguments must be provided and be of type string.");
 //   }
 
 //   const keyBuffer = Buffer.from(key, 'hex');
@@ -69,28 +70,20 @@ app.use(cors());
 //   return decrypted;
 // }
 
-
-
-
-// app.get("/getDecrypt",async(req,res)=>{
-
+// app.get("/getDecrypt", async (req, res) => {
 //   const keyAsHexString = 'D8ABA26A5EA3126758F4F9A593BC573B';
 //   const keyBuffer = Buffer.from(keyAsHexString, 'hex');
-  
-//   const value=await decrypt(keyBuffer,"GDQlhIbZh/cMOsE8SO/YCV/Am82kGZq30K8Krk9CR+MZLhtWT+kwP4aRurfLk8p8WU/85usMwKzraEAANQefBYIYuKhrvqWaaurg7mPEXFdT3T+jE33bJy9eKLRbDnJmoVB6ClDKaaQO3H3xVSkHtg==");
-//    res.send(value)
-//    console.log(value,"values i sthere...");
-   
-// })
 
+//   const value = await decrypt(keyBuffer, "GDQlhIbZh/cMOsE8SO/YCV/Am82kGZq30K8Krk9CR+MZLhtWT+kwP4aRurfLk8p8WU/85usMwKzraEAANQefBYIYuKhrvqWaaurg7mPEXFdT3T+jE33bJy9eKLRbDnJmoVB6ClDKaaQO3H3xVSkHtg==");
+//   res.send(value);
+//   console.log(value, "values is there...");
+// });
 
-
-
-//admin portal routes
+// // Admin portal routes
 // app.use("/rsa-trg", adminVideoRoutes);
 // app.use("/rsa-trg", GCPUploadRoutes);
 
-// //RSA admin routes
+// // RSA admin routes
 // app.use("/rsa-trg", addUserRoutes);
 // app.use("/rsa-trg", transactionRoutes);
 // app.use("/rsa-trg", serviceList);
@@ -98,18 +91,18 @@ app.use(cors());
 // // RSA user routes
 // app.use("/rsa-trg", debitRoutes);
 // app.use("/rsa-trg", debitCreditRoutes);
-// app.use("/rsa-trg",verifyVPARoute);
+// app.use("/rsa-trg", verifyVPARoute);
+
+// app.use("/rsa-trg", ipRoutes);
 
 
-// app.use("/rsa-trg",ipRoutes)
+// app.get("/gettingPort",(req,res)=>{
+//   res.json("4100...")
+// })
 
-app.get("/gettingPort",(req,res)=>{
-  res.json("4100...")
-})
-
-app.get("/",(req,res)=>{
-  res.json("4100...")
-})
+// app.get("/",(req,res)=>{
+//   res.json("4100...")
+// })
 
 const PORT = process.env.PORT || 8100;
 app.listen(PORT, () => {
