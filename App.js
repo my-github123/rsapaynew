@@ -47,6 +47,18 @@ sequelize
     console.error("Unable to connect to the database:", e);
   });
 
+
+  app.get("/api/check-database", async (req, res) => {
+    try {
+      await sequelize.authenticate();
+      console.log("Connection has been established successfully.");
+      res.status(200).json({ message: "Database connected successfully." });
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+      res.status(500).json({ message: "Failed to connect to the database.", error });
+    }
+  });
+
 // // Routes
 // // User training portal routes
 app.use("/rsa-trg", userRoutes);
@@ -107,6 +119,8 @@ app.get("/",(req,res)=>{
   res.send("4100...")
 })
 
+
+// 192.168.2.8
 
 
 const PORT = process.env.PORT || 4100;
