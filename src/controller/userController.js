@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 const getUsers = require("../model/AddUsers");
+const rsaUsers=require("../model/AddUsers");
 // const bcrypt = require("bcrypt");
 const { Sequelize } = require("sequelize");
 const ExcelJS = require('exceljs');
@@ -15,6 +16,7 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while creating the user.' });
   }
 };
+
 
 exports.loginUser = async (req, res) => {
   try {
@@ -140,6 +142,22 @@ exports.getAllUsernames = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
+
+    if (!users) {
+      return res.status(404).json({ error: "No users found" });
+    }
+
+    res.json(users);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+exports.getRsaUsers = async (req, res) => {
+  try {
+    const users = await rsaUsers.findAll();
 
     if (!users) {
       return res.status(404).json({ error: "No users found" });
