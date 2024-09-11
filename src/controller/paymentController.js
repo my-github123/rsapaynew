@@ -141,7 +141,7 @@ const transferPayment = async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({
-      message: "Error making API call",
+      message: "Error making API call from bank",
       error: error.message,
     });
   }
