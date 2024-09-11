@@ -103,8 +103,8 @@ const verifyVPA = async (req, res) => {
       body: body,
       headers: {
         "Content-Type": "application/json",
-        "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
-        "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
+        // "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
+        // "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
       },
       agent: httpsAgent, // Pass the HTTPS agent
     });
