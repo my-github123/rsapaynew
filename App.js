@@ -101,7 +101,7 @@ app.use("/rsa-trg", GCPUploadRoutes);
 // RSA admin routes
 app.use("/rsa-trg", addUserRoutes);
 app.use("/rsa-trg", transactionRoutes);
-app.use("/rsa-trg", serviceList);
+app.use("/uat/rsa-trg", serviceList);
 
 // RSA user routes
 app.use("/rsa-trg", debitRoutes);
