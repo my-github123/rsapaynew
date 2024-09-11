@@ -74,8 +74,8 @@ const verifyVPA = async (req, res) => {
     "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
 
   // Path to your PFX certificate and passphrase
-  const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
-  const passphrase = "Year@2024"; // Replace with your actual passphrase
+  const pfxPath = path.resolve(__dirname, "../certificate/mytvs_in.p12");
+  const passphrase = "rsapayapps@123"; // Replace with your actual passphrase
 
   try {
     // Read the PFX file synchronously

@@ -56,8 +56,8 @@ const getStatus = async (req, res) => {
 
   const encryptedBody = encrypt(keyBuffer, GetStatusRequestBody);
   const apiUrl = "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/get-status";
-  const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
-  const passphrase = "Year@2024";
+  const pfxPath = path.resolve(__dirname, "../certificate/mytvs_in.p12");
+  const passphrase = "rsapayapps@123";
 
   try {
     const pfx = fs.readFileSync(pfxPath);
