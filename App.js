@@ -52,7 +52,7 @@ sequelize
     try {
       await sequelize.authenticate();
       console.log("Connection has been established successfully for RSA.");
-      res.status(200).json({ message: "Database connected successfully." });
+      res.status(200).json({ message: "Database connected successfully for RSA." });
     } catch (error) {
       console.error("Unable to connect to the database:", error);
       res.status(500).json({ message: "Failed to connect to the database.", error });
