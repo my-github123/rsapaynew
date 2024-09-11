@@ -74,6 +74,8 @@ const getStatus = async (req, res) => {
     };
 
     const body = JSON.stringify(apiBody);
+    console.log(body,"body is there...");
+    
 
     const response = await axios.post(apiUrl, body, {
       httpsAgent: httpsAgent,

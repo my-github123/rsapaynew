@@ -19,6 +19,8 @@ function encrypt(key, text) {
   return Buffer.concat([ivBuffer, encrypted]).toString("base64");
 }
 
+
+
 function decrypt(key, encrypted) {
   const keyBuffer = Buffer.from(key, "hex");
   const encryptedBuffer = Buffer.from(encrypted, "base64");
@@ -34,9 +36,7 @@ const transferPayment = async (req, res) => {
   const { SubHeader, TransferPaymentRequestBody } =
     req.body.TransferPaymentRequest || {};
 
-  console.log(TransferPaymentRequestBody, "BODY IS THERE..");
 
- 
 
   if (!SubHeader || !TransferPaymentRequestBody) {
     return res.status(400).json({
@@ -78,6 +78,17 @@ const transferPayment = async (req, res) => {
   TransferPaymentRequestBody.paymentDetails[0].beneMobileNo +
   TransferPaymentRequestBody.paymentDetails[0].productCode +
   TransferPaymentRequestBody.paymentDetails[0].txnType +
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceAmount+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceNumber+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceDate+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.cashDiscount+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.tax+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.netAmount+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceInfo1+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceInfo2+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceInfo3+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceInfo4+
+  // TransferPaymentRequestBody.paymentDetails[0]?.invoiceDetails[0]?.invoiceInfo5+
   TransferPaymentRequestBody.paymentDetails[0].enrichment1 +
   TransferPaymentRequestBody.paymentDetails[0].enrichment2 +
   TransferPaymentRequestBody.paymentDetails[0].enrichment3 +
@@ -90,14 +101,15 @@ const transferPayment = async (req, res) => {
     .update(concatenatedString)
     .digest("hex");
 
+    console.log(md5Hash,"MD5 HASH");
+    
   TransferPaymentRequestBody.checksum = md5Hash;
 
   // Encrypt the TransferPaymentRequestBody parameter
   const encryptedBody = encrypt(keyBuffer, TransferPaymentRequestBody);
 
   // Define the API endpoint
-  const apiUrl =
-    "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/payments/transfer-payment";
+  const apiUrl ="https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/payments/transfer-payment";
 
   // Path to your PFX certificate and passphrase
   const pfxPath = path.resolve(__dirname, "../certificate/client.p12");
@@ -117,11 +129,11 @@ const transferPayment = async (req, res) => {
     const apiBody = {
       TransferPaymentRequest: {
         SubHeader,
-        TransferPaymentRequestBody: encryptedBody,
+        TransferPaymentRequestBodyEncrypted:encryptedBody,
       },
     };
 
-    console.log(apiBody, "BODY IS THERE.............................");
+    console.log(JSON.stringify(apiBody), "BODY IS THERE.............................");
 
     // Make the POST request to the external API with headers and host configuration
     const response = await axios.post(apiUrl, apiBody, {
