@@ -1,10 +1,9 @@
-const axios = require("axios");
-const https = require("https");
-const fs = require("fs");
-const path = require("path");
 const crypto = require("crypto");
-const fetch = require("node-fetch");
+const path = require("path");
+const fs = require("fs");
+const https = require("https");
 
+// Encryption function
 function encrypt(key, text) {
   const keyBuffer = Buffer.from(key, "hex");
   const ivBuffer = Buffer.from([
@@ -20,6 +19,7 @@ function encrypt(key, text) {
   return Buffer.concat([ivBuffer, encrypted]).toString("base64");
 }
 
+// Decryption function
 function decrypt(key, encrypted) {
   if (!key || !encrypted) {
     throw new Error(
@@ -51,8 +51,7 @@ const verifyVPA = async (req, res) => {
 
   const keyAsHexString = "D8ABA26A5EA3126758F4F9A593BC573B";
 
-  // Convert hexadecimal string to Buffer
-  const keyBuffer = Buffer.from(keyAsHexString, "hex");
+  // Hash concatenated values to generate checksum
   const concatenatedString =
     VerifyVPARequestBody.merchId +
     VerifyVPARequestBody.merchChanId +
@@ -68,7 +67,7 @@ const verifyVPA = async (req, res) => {
   VerifyVPARequestBody.checksum = md5Hash;
 
   // Encrypt the VerifyVPARequestBody parameter
-  const encryptedBody = encrypt(keyBuffer, VerifyVPARequestBody);
+  const encryptedBody = encrypt(keyAsHexString, VerifyVPARequestBody);
 
   const apiUrl =
     "https://sakshamuat.axisbank.co.in/gateway/api/txb/v1/acct-recon/verifyVPA";
@@ -97,23 +96,27 @@ const verifyVPA = async (req, res) => {
     const body = JSON.stringify(apiBody);
 
     console.log(body, "before API HIT.............");
-    // Make the POST request to the external API with headers and host configuration
-    const response = await axios.post(apiUrl, body, {
+
+    // Using fetch instead of axios
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      body: body,
       headers: {
         "Content-Type": "application/json",
         "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
         "X-IBM-Client-Secret": "d58a28965d3640ffb470dcad05d12395",
       },
-      httpsAgent: httpsAgent, // Pass the HTTPS agent
+      agent: httpsAgent, // Pass the HTTPS agent
     });
 
+    // Parse the response as JSON
     const responseBody = await response.json();
 
     // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
     const encryptedResponseBody =
       responseBody.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
 
-    const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
+    const decryptedResponseBody = decrypt(keyAsHexString, encryptedResponseBody);
 
     // Replace the encrypted value with the decrypted value in the response
     const finalResponse = {
@@ -130,7 +133,7 @@ const verifyVPA = async (req, res) => {
   } catch (error) {
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from axis axis bank API",
+      message: "Error occurred from axis bank API",
       error: error.message,
       status: error.response?.status || 500,
     });
