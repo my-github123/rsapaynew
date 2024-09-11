@@ -133,7 +133,7 @@ const verifyVPA = async (req, res) => {
   } catch (error) {
     // Send an error response if the API call fails
     return res.status(500).json({
-      message: "Error occurred from axis bank API",
+      message: "Error bank API",
       error: error.message,
       status: error.response?.status || 500,
     });
