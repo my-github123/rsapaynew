@@ -137,9 +137,9 @@ const getStatus = async (req, res) => {
       GetStatusResponse: {
         SubHeader: responseSubHeader,
         GetStatusResponseBody: {
-          data: decryptedResponseBody,
+          decryptedResponseBody,
           message: "Success",
-          status: "SR"
+          status: "S"
         }
       }
     });
