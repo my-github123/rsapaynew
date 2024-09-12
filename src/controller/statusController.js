@@ -106,20 +106,20 @@ const getStatus = async (req, res) => {
       GetStatusRequestBodyEncrypted,
     } = GetStatusResponse;
 
-    let decryptedResponseBody;
-    try {
-      decryptedResponseBody = decrypt(keyBuffer, GetStatusRequestBodyEncrypted);
-      if (!decryptedResponseBody) throw new Error("Decryption failed.");
-    } catch (error) {
-      console.error("Decryption error:", error);
-      return res.status(500).json({ message: "Decryption failed", error: error.message });
-    }
+    // let decryptedResponseBody;
+    // try {
+    //   decryptedResponseBody = decrypt(keyBuffer, GetStatusRequestBodyEncrypted);
+    //   if (!decryptedResponseBody) throw new Error("Decryption failed.");
+    // } catch (error) {
+    //   console.error("Decryption error:", error);
+    //   return res.status(500).json({ message: "Decryption failed", error: error.message });
+    // }
 
     res.status(200).json({
       GetStatusResponse: {
         SubHeader: responseSubHeader,
         GetStatusResponseBody: {
-          data: decryptedResponseBody,
+          data: GetStatusRequestBodyEncrypted,
           message: "Success",
           status: "S"
         }
