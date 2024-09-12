@@ -126,7 +126,7 @@ const getStatus = async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({
-      message: "Error making API call",
+      message: "Error making API call from all",
       error: error.message,
     });
   }
