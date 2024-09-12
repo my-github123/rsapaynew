@@ -98,7 +98,7 @@ const verifyVPA = async (req, res) => {
 
     console.log(body, "before API HIT.............");
     // Make the POST request to the external API with headers and host configuration
-    const response = await axios.post(apiUrl, body, {
+    const response = await axios.post(apiUrl, apiBody, {
       headers: {
         "Content-Type": "application/json",
         "X-IBM-Client-Id": "bf21e9bd4ad7ba83c4f04b31c2833302",
