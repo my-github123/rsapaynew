@@ -127,7 +127,7 @@ const getStatus = async (req, res) => {
         GetStatusResponseBody: {
           data: decryptedResponseBody,
           message: "Success",
-          status: "S"
+          status: "SR"
         }
       }
     });
