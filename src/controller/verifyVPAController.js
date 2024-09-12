@@ -129,7 +129,7 @@ const verifyVPA = async (req, res) => {
       
     
       // Send the response from the external API back to the client
-      res.status(200).json(finalResponse);
+      res.status(200).json(response);
     } catch (error) {
       console.error("Error processing the response:", error);
       res.status(500).json({ error: "Internal Server Error" });
