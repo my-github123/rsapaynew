@@ -108,9 +108,9 @@ const verifyVPA = async (req, res) => {
     });
 
     try {
-      // const responseBody = await response.json();
+      const responseBody = await response.json();
     
-      // // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
+      // Decrypt the VerifyVPAResponseBodyEncrypted field in the response
       // const encryptedResponseBody = responseBody.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
     
       // // Perform decryption
@@ -124,12 +124,10 @@ const verifyVPA = async (req, res) => {
       //   },
       // };
     
-      // console.log(finalResponse, "MIDDLE ...");
-      console.log(response,"respose");
-      
+      console.log(responseBody, "MIDDLE ...");
     
       // Send the response from the external API back to the client
-      res.status(200).json(response);
+      res.status(200).json(responseBody);
     } catch (error) {
       console.error("Error processing the response:", error);
       res.status(500).json({ error: "Internal Server Error" });
