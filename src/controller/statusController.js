@@ -90,6 +90,8 @@ const getStatus = async (req, res) => {
       }
     };
 
+   
+
     const response = await axios.post(apiUrl, apiBody, {
       httpsAgent: httpsAgent,
       headers: {
@@ -102,24 +104,28 @@ const getStatus = async (req, res) => {
     const { GetStatusResponse } = response.data;
 
     const {
-      SubHeader: responseSubHeader,
-      GetStatusRequestBodyEncrypted,
+      SubHeader,
+      GetStatusResponseBodyEncrypted,
     } = GetStatusResponse;
 
-    // let decryptedResponseBody;
-    // try {
-    //   decryptedResponseBody = decrypt(keyBuffer, GetStatusRequestBodyEncrypted);
-    //   if (!decryptedResponseBody) throw new Error("Decryption failed.");
-    // } catch (error) {
-    //   console.error("Decryption error:", error);
-    //   return res.status(500).json({ message: "Decryption failed", error: error.message });
-    // }
+    
+
+
+
+    let decryptedResponseBody;
+    try {
+      decryptedResponseBody = decrypt(keyBuffer, GetStatusResponseBodyEncrypted);
+      if (!decryptedResponseBody) throw new Error("Decryption failed.");
+    } catch (error) {
+      console.error("Decryption error:", error);
+      return res.status(500).json({ message: "Decryption failed", error: error.message });
+    }
 
     res.status(200).json({
       GetStatusResponse: {
-        SubHeader: responseSubHeader,
+        SubHeader: SubHeader,
         GetStatusResponseBody: {
-          data: GetStatusRequestBodyEncrypted,
+          data: decryptedResponseBody,
           message: "Success",
           status: "S"
         }
