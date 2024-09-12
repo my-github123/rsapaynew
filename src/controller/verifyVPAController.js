@@ -96,7 +96,7 @@ const verifyVPA = async (req, res) => {
 
     const body = JSON.stringify(apiBody);
 
-    console.log(body, "before API HIT.............");
+   
     // Make the POST request to the external API with headers and host configuration
     const response = await axios.post(apiUrl, apiBody, {
       headers: {
@@ -134,7 +134,7 @@ const verifyVPA = async (req, res) => {
     }
     
 
-    console.log(body, "MIDDLE ...");
+  
 
     // Send the response from the external API back to the client
     res.status(200).json(finalResponse);
