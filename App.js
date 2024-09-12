@@ -68,28 +68,28 @@ app.use("/rsa-trg", videoInteraction);
 app.use("/rsa-trg", likeRoutes);
 
 // // Decrypt function
-// function decrypt(key, encrypted) {
-//   if (!key || !encrypted) {
-//     throw new Error("Both key and encrypted arguments must be provided and be of type string.");
-//   }
+function decrypt(key, encrypted) {
+  if (!key || !encrypted) {
+    throw new Error("Both key and encrypted arguments must be provided and be of type string.");
+  }
 
-//   const keyBuffer = Buffer.from(key, 'hex');
-//   const encryptedBuffer = Buffer.from(encrypted, 'base64');
-//   const ivBuffer = encryptedBuffer.slice(0, 16);
-//   const ciphertextBuffer = encryptedBuffer.slice(16);
-//   const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
+  const keyBuffer = Buffer.from(key, 'hex');
+  const encryptedBuffer = Buffer.from(encrypted, 'base64');
+  const ivBuffer = encryptedBuffer.slice(0, 16);
+  const ciphertextBuffer = encryptedBuffer.slice(16);
+  const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
 
-//   let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
-//   decrypted += decipher.final('utf8');
+  let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
+  decrypted += decipher.final('utf8');
 
-//   return decrypted;
-// }
+  return decrypted;
+}
 
 app.get("/getDecrypt", async (req, res) => {
   const keyAsHexString = 'D8ABA26A5EA3126758F4F9A593BC573B';
   const keyBuffer = Buffer.from(keyAsHexString, 'hex');
 
-  const value = await decrypt(keyBuffer,"/YWUyQ6ZBjwc1pBoUE+JyRkjo/8pVQ2XEYzewkPq3XOjFiG0cPoANFkGhO4iAPGDG+gCEmXKyFdZOPiBaLgRa2inMJtC9Ht/A/AqCJPjxX+TNBWpAy1yGbZCVmXsGVNRidn4+JQPu+L66XIOfPVdplLo1qSttTUN+pXxszsB9adfGF79gc362kIKVt81rEl9omowmV7FganJSQxm1z5f6NjAx/WJlVM03RQJUae2jRpP2esib8IcXrbffg/wknptibfczxuziJB6yOvCnGJ5iBHeSPauFHH/xGYIGlLSXavn2QGtGsMUA4gvtKfYXll9iAK9OAnYTx2jWlqUZrbN0ooc/EiTUG8Bldtw3eX3h1SsL2eR6yJycjT43DtLsrEcvqxaALU5mNdsdTTo2hMfy5zAIgBC5awz1dhCKvndV1iYRWj1bH444xBCXB9NpUbecN7zRYfIR089/TELa6h4DUiMaQYCw8+14W+FnSk0Fm59fZrLN7IEwLldUB0FvhqmhgXTFljRNyZWIEl8BSVuigf0qLoBzDks0ggmC9vH0YuZqqQn2Qxj9UfgTBlZHdDEEts71/99+pr8SSLWcv71jH58H5q+zuMU6+vikDxL365DKsGvr1zdV3Q9PzlhGe1OoC689xCqH+WxTnA64dPGTaSLa1+gnYgHW4hhIiaf7VrjEghjrxcNKDbvGkLLHku0//GcRGL1vPizi/HxchXygdD5j1jdoHR/pLv6j1JZqYAn8CfA9kVZgcC+UunPxi2X")
+  const value = await decrypt(keyBuffer,"oZypmB1iIMMGQn7AQreKKd/Pgx8n4/iORPVXsLjyjB4RIiP0aquSWMhC/wHLijgmTA4oZuFNUFg0AhHR81ugKC2ap2gZtf3wh9yh+ZYWeP0RSdemAVmd0QgUoKbdnGaUHQA2KZcS+TRXZnFBllu3TA==")
   res.send(value);
   console.log(value, "values is there...");
 });
