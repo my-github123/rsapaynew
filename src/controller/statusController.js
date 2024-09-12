@@ -129,11 +129,22 @@ const getStatus = async (req, res) => {
       return res.status(500).json({ message: "Decryption failed", error: error.message });
     }
 
+     // Remove backslashes from the JSON string
+     let parsedResponse;
+     try {
+       parsedResponse = JSON.parse(decryptedResponseBody);
+     } catch (error) {
+       console.error("Error parsing JSON:", error);
+       return res.status(500).json({ message: "Error parsing JSON", error: error.message });
+     }
+
+    
+
     res.status(200).json({
       GetStatusResponse: {
         SubHeader: responseSubHeader,
         GetStatusResponseBody: {
-          data: decryptedResponseBody,
+          data: parsedResponse.data,
           message: "Success",
           status: "SR"
         }
