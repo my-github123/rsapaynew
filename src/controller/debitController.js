@@ -5,13 +5,13 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-const storage = new Storage({
-  keyFilename: path.join(
-    __dirname,
-    "../../prj-stag-gobumpr-service-6567-86059d44965a.json"
-  ),
-  projectId: "prj-stag-gobumpr-service-6567",
-});
+// const storage = new Storage({
+//   keyFilename: path.join(
+//     __dirname,
+//     "../../prj-stag-gobumpr-service-6567-86059d44965a.json"
+//   ),
+//   projectId: "prj-stag-gobumpr-service-6567",
+// });
 // Calculate expiration date one year from now
 
 exports.createTransaction = async (req, res) => {
@@ -31,7 +31,7 @@ exports.createTransaction = async (req, res) => {
 
     console.log(req.file.path, "FILE PATH IS THERE........");
 
-    const image = req.file.path ? req.file.path : null;
+   // const image = req.file.path ? req.file.path : null;
 
     // const bucketName = "bkt-gobumper-stag-02";
     // const destinationFileName = `rsa-images/${req.file.originalname}`;
@@ -83,7 +83,7 @@ exports.createTransaction = async (req, res) => {
       remarks,
       amount,
       transactionId,
-      image,
+     image,
     });
 
     const user = await addUsers.findOne({ where: { adminId, userId } });

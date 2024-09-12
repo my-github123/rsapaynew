@@ -2,20 +2,36 @@ const express = require("express");
 const router = express.Router();
 const debitController = require("../controller/debitController");
 const multer = require("multer");
-
+const path=require("path")
+// Define storage options for Multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Directory where files will be saved
   },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${path.basename(file.originalname)}`);
   },
 });
-const upload = multer({ storage: storage });
+
+// Set up the Multer middleware
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only images are allowed (jpg, jpeg, png)'));
+    }
+  },
+});
 
 router.post(
   "/rsaAddDebit",
-  upload.single("image"),
+   upload.single("image"),
   debitController.createTransaction
 );
 
