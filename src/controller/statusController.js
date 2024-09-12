@@ -86,15 +86,29 @@ const getStatus = async (req, res) => {
       },
     });
 
-    const { GetStatusResponse } = response.data;
-    console.log(GetStatusResponse); // Check the structure of the response
+        // Extract the encrypted response body
+        const { GetStatusResponse } = response.data;
+    
+  
+        const {
+          SubHeader: responseSubHeader,
+          GetStatusRequestBodyEncrypted,
+        } = GetStatusResponse;
+    
+        // Decrypt the response body
+        const decryptedResponseBody = decrypt(
+          keyBuffer,
+          GetStatusRequestBodyEncrypted
+        );
 
-    const { SubHeader: ResponseSubHeader, GetStatusRequestBodyEncrypted } = GetStatusResponse;
-    const decryptedResponseBody = decrypt(keyBuffer, GetStatusRequestBodyEncrypted);
+   
+
+    
+   
     
     res.status(200).json({
       GetStatusResponse: {
-        SubHeader: ResponseSubHeader,
+        SubHeader: responseSubHeader,
         GetStatusResponseBody: {
           data: decryptedResponseBody,
           message: "Success",
