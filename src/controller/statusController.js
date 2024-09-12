@@ -34,7 +34,9 @@ function decrypt(key, encrypted) {
 }
 
 const getStatus = async (req, res) => {
+ 
   const { SubHeader, GetStatusRequestBody } = req.body.GetStatusRequest || {};
+
 
   if (!SubHeader || !GetStatusRequestBody) {
     return res.status(400).json({
@@ -83,12 +85,17 @@ const getStatus = async (req, res) => {
       passphrase: passphrase,
     });
 
+   
+
+   
+    
     const apiBody = {
       GetStatusRequest: {
         SubHeader,
         GetStatusRequestBodyEncrypted: encryptedBody,
       }
     };
+    
 
    
 
@@ -104,10 +111,11 @@ const getStatus = async (req, res) => {
     const { GetStatusResponse } = response.data;
 
     const {
-      SubHeader,
+      SubHeader: responseSubHeader,
       GetStatusResponseBodyEncrypted,
     } = GetStatusResponse;
 
+  
     
 
 
@@ -123,7 +131,7 @@ const getStatus = async (req, res) => {
 
     res.status(200).json({
       GetStatusResponse: {
-        SubHeader: SubHeader,
+        SubHeader: responseSubHeader,
         GetStatusResponseBody: {
           data: decryptedResponseBody,
           message: "Success",
