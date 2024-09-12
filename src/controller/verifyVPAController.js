@@ -108,12 +108,24 @@ const verifyVPA = async (req, res) => {
 
     const responseBody = response.data;
 
-    // Optional decryption process here if needed
-    // const encryptedResponseBody = responseBody.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
-    // const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
+    const encryptedResponseBody =
+    responseBody.VerifyVPAResponse.VerifyVPAResponseBodyEncrypted;
 
-    // Send the response back to the client
-    res.status(200).json(responseBody);
+  const decryptedResponseBody = decrypt(keyBuffer, encryptedResponseBody);
+
+  // Replace the encrypted value with the decrypted value in the response
+  const finalResponse = {
+    VerifyVPAResponse: {
+      SubHeader: responseBody.VerifyVPAResponse.SubHeader,
+      VerifyVPAResponseBody: decryptedResponseBody,
+    },
+  };
+
+  console.log(body,"MIDDLE ...");
+  
+
+  // Send the response from the external API back to the client
+  res.status(200).json(finalResponse);
 
   } catch (error) {
     console.error("Error processing the response:", error);
