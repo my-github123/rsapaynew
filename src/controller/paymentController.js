@@ -147,6 +147,8 @@ const transferPayment = async (req, res) => {
 
     // Extract the encrypted response body
     const { TransferPaymentResponse } = response.data;
+    
+  
     const {
       SubHeader: responseSubHeader,
       TransferPaymentResponseBodyEncrypted,
