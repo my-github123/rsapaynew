@@ -29,7 +29,7 @@ exports.createTransaction = async (req, res) => {
       amount,
     } = req.body;
 
-    console.log(req.file.path, "FILE PATH IS THERE........");
+   
 
    // const image = req.file.path ? req.file.path : null;
 
