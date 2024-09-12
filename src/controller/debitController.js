@@ -31,7 +31,7 @@ exports.createTransaction = async (req, res) => {
 
    
 
-   // const image = req.file.path ? req.file.path : null;
+  // const image = req.file.path ? req.file.path : null;
 
     // const bucketName = "bkt-gobumper-stag-02";
     // const destinationFileName = `rsa-images/${req.file.originalname}`;
@@ -83,6 +83,7 @@ exports.createTransaction = async (req, res) => {
       remarks,
       amount,
       transactionId,
+      image:"url"
      
     });
 
