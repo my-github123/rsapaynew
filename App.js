@@ -94,6 +94,13 @@ app.get("/getDecrypt", async (req, res) => {
   console.log(value, "values is there...");
 });
 
+app.get("/getRsaProject", async (req, res) => {
+ 
+  res.send("value is coming");
+ 
+});
+
+
 // Admin portal routes
 app.use("/rsa-trg", adminVideoRoutes);
 app.use("/rsa-trg", GCPUploadRoutes);
