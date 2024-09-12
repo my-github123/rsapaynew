@@ -83,7 +83,7 @@ exports.createTransaction = async (req, res) => {
       remarks,
       amount,
       transactionId,
-     image,
+     
     });
 
     const user = await addUsers.findOne({ where: { adminId, userId } });
