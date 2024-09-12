@@ -42,10 +42,10 @@ const DebitList = sequelize.define("rsa_debit_list", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  image: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  // image: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  // },
 });
 
 module.exports = DebitList;
