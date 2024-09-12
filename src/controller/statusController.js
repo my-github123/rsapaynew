@@ -5,24 +5,31 @@ const https = require('https');
 const crypto = require("crypto");
 
 
-function encrypt(key, text) {
-  const keyBuffer = Buffer.from(key, 'hex');
-   const ivBuffer = Buffer.from([0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A, 0x8E, 0x12, 0x39, 0x9C, 0x07, 0x72, 0x6F, 0x5A]);
-  
 
-  const cipher = crypto.createCipheriv('aes-128-cbc', keyBuffer, ivBuffer);
-  let encrypted = Buffer.concat([cipher.update(JSON.stringify(text), 'utf8'), cipher.final()]);
-  return Buffer.concat([ivBuffer, encrypted]).toString('base64');
+
+function encrypt(key, text) {
+  const keyBuffer = Buffer.from(key, "hex");
+  const ivBuffer = Buffer.from([
+    0x8e, 0x12, 0x39, 0x9c, 0x07, 0x72, 0x6f, 0x5a, 0x8e, 0x12, 0x39, 0x9c,
+    0x07, 0x72, 0x6f, 0x5a,
+  ]);
+
+  const cipher = crypto.createCipheriv("aes-128-cbc", keyBuffer, ivBuffer);
+  let encrypted = Buffer.concat([
+    cipher.update(JSON.stringify(text), "utf8"),
+    cipher.final(),
+  ]);
+  return Buffer.concat([ivBuffer, encrypted]).toString("base64");
 }
 
 function decrypt(key, encrypted) {
-  const keyBuffer = Buffer.from(key, 'hex');
-  const encryptedBuffer = Buffer.from(encrypted, 'base64');
+  const keyBuffer = Buffer.from(key, "hex");
+  const encryptedBuffer = Buffer.from(encrypted, "base64");
   const ivBuffer = encryptedBuffer.slice(0, 16);
   const ciphertextBuffer = encryptedBuffer.slice(16);
-  const decipher = crypto.createDecipheriv('aes-128-cbc', keyBuffer, ivBuffer);
-  let decrypted = decipher.update(ciphertextBuffer, null, 'utf8');
-  decrypted += decipher.final('utf8');
+  const decipher = crypto.createDecipheriv("aes-128-cbc", keyBuffer, ivBuffer);
+  let decrypted = decipher.update(ciphertextBuffer, null, "utf8");
+  decrypted += decipher.final("utf8");
   return decrypted;
 }
 
