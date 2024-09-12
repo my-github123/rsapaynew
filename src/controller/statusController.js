@@ -84,7 +84,7 @@ const getStatus = async (req, res) => {
     console.log(body,"body is there...");
     
 
-    const response = await axios.post(apiUrl, apiBody, {
+    const response = await axios.post(apiUrl, body, {
       httpsAgent: httpsAgent,
       headers: {
         "Content-Type": "application/json",
