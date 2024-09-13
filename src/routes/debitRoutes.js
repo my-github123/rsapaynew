@@ -4,6 +4,11 @@ const debitController = require("../controller/debitController");
 const multer = require("multer");
 const path=require("path")
 // Define storage options for Multer
+
+
+
+
+// Multer storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/'); // Directory where files will be saved
@@ -13,7 +18,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// Set up the Multer middleware
+// Set up Multer middleware
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
@@ -29,10 +34,8 @@ const upload = multer({
   },
 });
 
-router.post(
-  "/rsaAddDebit1",
-debitController.createTransaction
-);
+// Route for transaction creation with image upload
+router.post("/rsaAddDebit1", upload.single('image'), debitController.createTransaction);
 
 router.get("/rsaGetDebit", debitController.getTransactionByUserAndAdmin);
 

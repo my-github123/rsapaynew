@@ -137,14 +137,10 @@ const getStatus = async (req, res) => {
       GetStatusResponse: {
         SubHeader: responseSubHeader,
         GetStatusResponseBody:decryptedResponseBody
-      
-          // message: "Success",
-          // status: "S"
         
       }
     });
    
-
   } catch (error) {
     console.error("Error making API call:", error);
     res.status(500).json({

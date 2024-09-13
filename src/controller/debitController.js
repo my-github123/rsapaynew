@@ -29,6 +29,13 @@ exports.createTransaction = async (req, res) => {
       amount,
     } = req.body;
 
+
+    // Handle image upload
+    let imagePath = null;
+    if (req.file) {
+      imagePath = req.file.path; // Save the image path if the image is uploaded
+    }
+
    
 
   // const image = req.file.path ? req.file.path : null;
@@ -84,7 +91,7 @@ exports.createTransaction = async (req, res) => {
       remarks,
       amount,
       transactionId,
-      image:"url"
+      image: imagePath, // Save the image path to the database
      
     });
 
