@@ -81,6 +81,9 @@ exports.createTransaction = async (req, res) => {
     //     console.error("Error deleting file:", err);
     //   }
     // });
+
+    const transactionTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+
     
 
     const newTransaction = await Transaction.create({
@@ -97,7 +100,8 @@ exports.createTransaction = async (req, res) => {
       billCopy,
       status,
       reason,
-      typePayee
+      typePayee,
+      transactionTime
      
     });
 

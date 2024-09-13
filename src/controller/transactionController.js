@@ -31,12 +31,15 @@ exports.addTransaction = async (req, res) => {
     // Generate a 6-digit random number
     const transactionId = Math.floor(100000 + Math.random() * 900000);
 
+    const transactionTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+
     // Add a new transaction
     const newTransaction = await Transaction.create({
       adminId,
       userId,
       addAmount,
       expDate,
+      transactionTime,
       transactionId, // Include the generated transaction ID
     });
 

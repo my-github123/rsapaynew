@@ -24,6 +24,11 @@ const Transaction = sequelize.define("rsa_credit_list", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  transactionTime: {
+    type: DataTypes.STRING,
+  allowNull: false,
+  },
+  
 }, {
   timestamps: false, // Disable automatic timestamps
 });

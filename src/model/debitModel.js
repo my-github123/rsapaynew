@@ -60,7 +60,12 @@ const DebitList = sequelize.define("rsa_debit_list", {
   typePayee:{
     type: DataTypes.STRING,
    
-  }
+  },
+  transactionTime: {
+    type: DataTypes.STRING,
+   
+  },
+  
 }, {
   timestamps: false, // Disable automatic timestamps
 });
