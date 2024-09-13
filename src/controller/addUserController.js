@@ -20,6 +20,14 @@ exports.addUser = async (req, res) => {
     const role = "user";
     const isActive = true;
 
+       // Check if the username already exists
+       const existingUser = await User.findOne({ where: { empId } });
+
+       if (existingUser) {
+         // If the username already exists, send a response to the client
+         return res.status(409).json({ message: "EmpId already exists" });
+       }
+
     const newUser = await User.create({
       userId,
       adminId,

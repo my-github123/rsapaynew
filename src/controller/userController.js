@@ -17,36 +17,48 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
 exports.loginUser = async (req, res) => {
   try {
     console.log("Request body:", req.body);
 
     const { username, password } = req.body;
 
-    const user = await User.findOne({ where: { username } });
-    const getUser = await getUsers.findOne({ where: { username } });
+    // Check for required fields
+    if (!password || !username) {
+      return res.status(400).json({ error: "Username and password are required" });
+    }
 
     let authenticatedUser;
 
+    // Attempt to find the user by username in the User model
+    const user = await User.findOne({ where: { username } });
+
     if (user && user.password === password) {
       authenticatedUser = user;
-    } else if (getUser && getUser.password === password) {
-      authenticatedUser = getUser;
     } else {
+      // If not found in the User model, attempt to find by empId in the getUsers model
+      const getUser = await getUsers.findOne({ where: { empId: username } });
+
+      if (getUser && getUser.password === password) {
+        authenticatedUser = getUser;
+      }
+    }
+
+    // If no user found, return error
+    if (!authenticatedUser) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
+    // Generate a token for the authenticated user
     const token = jwt.sign(
       { userId: authenticatedUser.id },
       "K!M@9556",
-      {
-        expiresIn: "1000y",
-      }
+      { expiresIn: "1000y" }
     );
 
     console.log("Login successful");
 
+    // Respond with success message, token, and user info
     res.json({
       message: "Login successful",
       token,
@@ -57,6 +69,53 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+// exports.loginUser = async (req, res) => {
+
+//   try {
+//     console.log("Request body:", req.body);
+
+//     const { username, password } = req.body;
+
+//     const user = await User.findOne({ where: { username } });
+//      // Find the user by empId in the getUsers model (if you need to use empId, ensure it's provided)
+//      const getUser = await getUsers.findOne({ where: { username } });
+
+
+  
+
+//     let authenticatedUser;
+
+//     if (user && user.password === password) {
+//       authenticatedUser = user;
+//     } else if (getUser && getUser.password === password) {
+//       authenticatedUser = getUser;
+//     } else {
+//       return res.status(401).json({ error: "Invalid username or password" });
+//     }
+
+//     const token = jwt.sign(
+//       { userId: authenticatedUser.id },
+//       "K!M@9556",
+//       {
+//         expiresIn: "1000y",
+//       }
+//     );
+
+//     console.log("Login successful");
+
+//     res.json({
+//       message: "Login successful",
+//       token,
+//       user: authenticatedUser,
+//     });
+//   } catch (error) {
+//     console.error("Error from userController:", error.message);
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 // exports.loginUser = async (req, res) => {
 //   try {
