@@ -2,6 +2,7 @@ const express = require("express");
 const app=express();
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path=require("path")
 const crypto = require("crypto");
 
 // sudo ss -tulpn | grep LISTEN
@@ -33,6 +34,9 @@ const ipRoutes = require("./src/routes/ipRoutes");
 
 
 app.use(express.json());
+
+// Serve static files from the 'uploads' directory directly at the root URL
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 // // Enable CORS for all routes
 app.use(cors());
