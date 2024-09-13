@@ -19,6 +19,9 @@ const User = sequelize.define("rsa_users", {
   isActive: DataTypes.BOOLEAN,
   phoneNumber: DataTypes.STRING,
   location: DataTypes.STRING,
+ 
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 module.exports = User;

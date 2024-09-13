@@ -1,3 +1,4 @@
+// models/AdminVideo.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -22,20 +23,22 @@ const AdminVideo = sequelize.define("AdminVideosLists", {
   url: {
     type: DataTypes.STRING,
     allowNull: false,
-  },  
+  },
   isEnabled: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 1
+    defaultValue: 1,
   },
   language: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   date: {
     type: DataTypes.DATE,
     allowNull: true,
   },
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 module.exports = AdminVideo;

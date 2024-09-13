@@ -1,3 +1,5 @@
+// models/DebitList.js
+
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -38,14 +40,29 @@ const DebitList = sequelize.define("rsa_debit_list", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  transactionId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
+ 
   image: {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  billCopy:{
+    type: DataTypes.STRING,
+    
+  },
+  status:{
+    type: DataTypes.STRING,
+   
+  },
+  reason:{
+    type: DataTypes.STRING,
+   
+  },
+  typePayee:{
+    type: DataTypes.STRING,
+   
+  }
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 module.exports = DebitList;

@@ -35,7 +35,7 @@ const upload = multer({
 });
 
 // Route for transaction creation with image upload
-router.post("/rsaAddDebit1", upload.single('image'), debitController.createTransaction);
+router.post("/rsaAddDebit", upload.single('image'), debitController.createTransaction);
 
 router.get("/rsaGetDebit", debitController.getTransactionByUserAndAdmin);
 

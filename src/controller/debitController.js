@@ -25,8 +25,11 @@ exports.createTransaction = async (req, res) => {
       serviceType,
       upiId,
       remarks,
-      transactionId,
       amount,
+      billCopy,
+      status,
+      reason,
+      typePayee
     } = req.body;
 
 
@@ -90,8 +93,11 @@ exports.createTransaction = async (req, res) => {
       upiId,
       remarks,
       amount,
-      transactionId,
       image: imagePath, // Save the image path to the database
+      billCopy,
+      status,
+      reason,
+      typePayee
      
     });
 

@@ -24,6 +24,8 @@ const Transaction = sequelize.define("rsa_credit_list", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 module.exports = Transaction;

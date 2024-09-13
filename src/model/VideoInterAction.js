@@ -24,6 +24,8 @@ const VideoInteraction = sequelize.define("videointeraction", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 module.exports = VideoInteraction;

@@ -42,14 +42,14 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
 
 // // Initialize sequelize
-sequelize
-  .sync()
+sequelize.sync({ alter: true })
   .then(() => {
-    console.log("Connection has been established successfully.");
+    console.log("Database synced successfully.");
   })
   .catch((e) => {
-    console.error("Unable to connect to the database:", e);
+    console.error("Error syncing database:", e);
   });
+
 
 
   app.get("/api/check-database", async (req, res) => {

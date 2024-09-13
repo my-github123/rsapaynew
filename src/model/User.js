@@ -1,4 +1,4 @@
-// userModel.js
+// models/userModel.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -81,17 +81,8 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  createdAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-    onUpdate: DataTypes.NOW,
-  },
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 module.exports = User;

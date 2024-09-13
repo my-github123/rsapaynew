@@ -8,7 +8,6 @@ const Post = sequelize.define("VideosList", {
   },
   videoId: {
     type: DataTypes.INTEGER,
-    // allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
@@ -50,10 +49,11 @@ const Post = sequelize.define("VideosList", {
     defaultValue: 1,
   },
   Date: {
-    // Add this line to define the Date column
     type: DataTypes.DATE,
     allowNull: true,
   },
+}, {
+  timestamps: false, // Disable automatic timestamps
 });
 
 Post.associate = (models) => {
