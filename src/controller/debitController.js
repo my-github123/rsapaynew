@@ -33,7 +33,7 @@ exports.createTransaction = async (req, res) => {
     // Handle image upload
     let imagePath = null;
     if (req.file) {
-      imagePath = req.file.path; // Save the image path if the image is uploaded
+      imagePath =`https://rsapay.mytvs.in/${req.file.filename}`; // Save the image path if the image is uploaded
     }
 
    
