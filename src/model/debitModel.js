@@ -43,7 +43,7 @@ const DebitList = sequelize.define("rsa_debit_list", {
  
   image: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   billCopy:{
     type: DataTypes.STRING,
