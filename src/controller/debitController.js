@@ -101,6 +101,7 @@ exports.createTransaction = async (req, res) => {
       status,
       reason,
       typePayee,
+      statusDescription,
       transactionTime
      
     });

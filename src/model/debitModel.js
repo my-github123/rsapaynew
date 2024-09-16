@@ -65,6 +65,9 @@ const DebitList = sequelize.define("rsa_debit_list", {
     type: DataTypes.STRING,
    
   },
+  statusDescription:{
+    type: DataTypes.STRING,
+  }
   
 }, {
   timestamps: false, // Disable automatic timestamps
