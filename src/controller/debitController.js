@@ -28,6 +28,7 @@ exports.createTransaction = async (req, res) => {
       amount,
       billCopy,
       status,
+      statusDescription,
       reason,
       typePayee,
     } = req.body;
