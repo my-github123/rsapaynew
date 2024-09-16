@@ -29,19 +29,16 @@ exports.createTransaction = async (req, res) => {
       billCopy,
       status,
       reason,
-      typePayee
+      typePayee,
     } = req.body;
-
 
     // Handle image upload
     let imagePath = null;
     if (req.file) {
-      imagePath =`https://rsapay.mytvs.in/${req.file.filename}`; // Save the image path if the image is uploaded
+      imagePath = `https://rsapay.mytvs.in/${req.file.filename}`; // Save the image path if the image is uploaded
     }
 
-   
-
-  // const image = req.file.path ? req.file.path : null;
+    // const image = req.file.path ? req.file.path : null;
 
     // const bucketName = "bkt-gobumper-stag-02";
     // const destinationFileName = `rsa-images/${req.file.originalname}`;
@@ -82,9 +79,9 @@ exports.createTransaction = async (req, res) => {
     //   }
     // });
 
-    const transactionTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
-
-    
+    const transactionTime = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Kolkata",
+    });
 
     const newTransaction = await Transaction.create({
       adminId,
@@ -102,8 +99,7 @@ exports.createTransaction = async (req, res) => {
       reason,
       typePayee,
       statusDescription,
-      transactionTime
-     
+      transactionTime,
     });
 
     const user = await addUsers.findOne({ where: { adminId, userId } });
@@ -111,12 +107,22 @@ exports.createTransaction = async (req, res) => {
       throw new Error("User not found");
     }
 
-    const updatedAmount = parseFloat(user.amount) - parseFloat(amount);
+    if (status == "Failed") {
+      //  const updatedAmount = parseFloat(user.amount) - parseFloat(amount);
 
-    await addUsers.update(
-      { amount: updatedAmount.toString() },
-      { where: { adminId, userId } }
-    );
+      const updatedAmount = parseFloat(user.amount);
+
+      await addUsers.update(
+        { amount: updatedAmount.toString() },
+        { where: { adminId, userId } }
+      );
+    } else {
+      const updatedAmount = parseFloat(user.amount) - parseFloat(amount);
+      await addUsers.update(
+        { amount: updatedAmount.toString() },
+        { where: { adminId, userId } }
+      );
+    }
 
     res.status(201).json({
       message: "Transaction created successfully",
