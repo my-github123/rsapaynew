@@ -93,11 +93,11 @@ exports.getUsers = async (req, res) => {
         where: {
           adminId: adminId,
         },
-        order: [["createdAt", "DESC"]], // Order by createdAt in descending order
+      //  order: [["createdAt", "DESC"]], // Order by createdAt in descending order
       });
     } else {
       users = await User.findAll({
-        order: [["createdAt", "DESC"]], // Order by createdAt in descending order
+       // order: [["createdAt", "DESC"]], // Order by createdAt in descending order
       });
     }
 
