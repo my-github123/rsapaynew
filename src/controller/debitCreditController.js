@@ -34,7 +34,7 @@ if (userDetails && userDetails.expDate) {
   const expiryDate = new Date(userDetails.expDate); // Convert expDate to a Date object
 
   // If the exp date is greater than currentDate, update the amount to 0
-  if (currentDate <=expiryDate) {
+  if (currentDate <expiryDate) {
     userDetails.amount = 0;
     userDetails.expiry=true;
   }
