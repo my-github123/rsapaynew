@@ -17,6 +17,7 @@ const User = sequelize.define("rsa_users", {
   expDate: DataTypes.DATE,
   role: DataTypes.STRING,
   isActive: DataTypes.BOOLEAN,
+  expiry:DataTypes.BOOLEAN,
   phoneNumber: DataTypes.STRING,
   location: DataTypes.STRING,
   

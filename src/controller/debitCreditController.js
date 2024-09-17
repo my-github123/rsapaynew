@@ -19,13 +19,26 @@ exports.getTransactionData = async (req, res) => {
 
     const userDetails = await GetUsers.findOne({
       where: { adminId, userId },
-      attributes: ["amount", "expDate"], // Specify the fields you want to fetch
+      attributes: ["amount", "expDate","expiry"], // Specify the fields you want to fetch
     //  order: [["userId", "DESC"]], // Fetch userDetails with descending userId order
     });
 
     const debits = await DebitList.findAll({ where: { adminId, userId },
       order: [["transactionTime", "DESC"]], // Order debits by userId in descending order
      });
+
+   const currentDate = new Date();
+
+// Check if userDetails and expDate exist
+if (userDetails && userDetails.expDate) {
+  const expiryDate = new Date(userDetails.expDate); // Convert expDate to a Date object
+
+  // If the exp date is greater than currentDate, update the amount to 0
+  if (currentDate <=expiryDate) {
+    userDetails.amount = 0;
+    userDetails.expiry=true;
+  }
+}
 
     // Format response
     const response = {

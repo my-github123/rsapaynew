@@ -19,6 +19,7 @@ exports.addUser = async (req, res) => {
     const expDate = null;
     const role = "user";
     const isActive = true;
+    const expiry=false;
 
        // Check if the username already exists
        const existingUser = await User.findOne({ where: { empId } });
@@ -39,6 +40,7 @@ exports.addUser = async (req, res) => {
       role,
       isActive,
       phoneNumber,
+      expiry,
       location,
     });
     res.status(201).json({ messege: "Added Successfully" });
