@@ -27,13 +27,14 @@ exports.getTransactionData = async (req, res) => {
       order: [["id", "DESC"]], // Order debits by userId in descending order
      });
 
-   const currentDate = new Date();
+   const currentDate ="2024-09-31";
 
 // Check if userDetails and expDate exist
 if (userDetails && userDetails.expDate) {
   const expiryDate = new Date(userDetails.expDate); // Convert expDate to a Date object
 
   // If the exp date is greater than currentDate, update the amount to 0
+  
   if (currentDate >expiryDate) {
     userDetails.amount = 0;
     userDetails.expiry=true;
