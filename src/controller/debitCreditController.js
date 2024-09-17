@@ -38,6 +38,9 @@ if (userDetails && userDetails.expDate) {
     userDetails.amount = 0;
     userDetails.expiry=true;
   }
+  else {
+    userDetails.expiry=false;
+  }
 }
 
     // Format response
