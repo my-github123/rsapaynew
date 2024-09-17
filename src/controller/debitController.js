@@ -39,60 +39,24 @@ exports.createTransaction = async (req, res) => {
       imagePath = `https://rsapay.mytvs.in/${req.file.filename}`; // Save the image path if the image is uploaded
     }
 
-    // const image = req.file.path ? req.file.path : null;
-
-    // const bucketName = "bkt-gobumper-stag-02";
-    // const destinationFileName = `rsa-images/${req.file.originalname}`;
-    // const fileType = req.file.originalname.split(".").pop();
-
-    // let contentType;
-    // if (fileType === "mp4") {
-    //   contentType = "video/mp4";
-    // } else if (fileType === "png") {
-    //   contentType = "image/png";
-    // } else if (fileType === "jpg" || fileType === "jpeg") {
-    //   contentType = "image/jpeg";
-    // } else if (fileType === "gif") {
-    //   contentType = "image/gif";
-    // } else {
-    //   // Default to application/octet-stream for unknown types
-    //   contentType = "application/octet-stream";
-    // }
-
-    // await storage.bucket(bucketName).upload(req.file.path, {
-    //   destination: destinationFileName,
-    //   contentType,
-    // });
-
-    // const oneYearFromNow = new Date();
-    // oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
-
-    // // Generate a signed URL for the uploaded file
-    // const [url] = await storage
-    //   .bucket(bucketName)
-    //   .file(destinationFileName)
-    //   .getSignedUrl({ action: "read", expires: oneYearFromNow });
-
-    // // Send the URL as part of the response
-    // fs.unlink(req.file.path, (err) => {
-    //   if (err) {
-    //     console.error("Error deleting file:", err);
-    //   }
-    // });
-
 
     const options = { timeZone: "Asia/Kolkata" };
     const now = new Date().toLocaleString("en-US", options);
-    
+
     // Create a new Date object based on the formatted string
     const transactionTime = new Date(now);
 
+    // Get the individual parts of the date
+    const day = transactionTime.getDate();
+    const month = transactionTime.toLocaleString('en-US', { month: 'short' }).toUpperCase(); // Short month (SEP)
+    const year = transactionTime.getFullYear();
 
+    // Get the time parts
     let hours = transactionTime.getHours();
     const minutes = transactionTime.getMinutes().toString().padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12 || 12; // Convert to 12-hour format, adjust midnight and noon
-    
+
     // Format the date and time string
     const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
 
@@ -102,7 +66,6 @@ exports.createTransaction = async (req, res) => {
       customerName,
       customerMobileNumber,
       ticketNo,
-      serviceType,
       upiId,
       remarks,
       amount,

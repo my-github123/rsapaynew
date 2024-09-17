@@ -25,7 +25,7 @@ const uploadToServer = require("./src/routes/uploadVideoRoutes");
 const likeRoutes = require("./src/routes/likeRoutes");
 const addUserRoutes = require("./src/routes/addUserRoutes");
 const transactionRoutes = require("./src/routes/transactionRoutes");
-const serviceList = require("./src/routes/serviceRoutes");
+// const serviceList = require("./src/routes/serviceRoutes");
 const debitRoutes = require("./src/routes/debitRoutes");
 const debitCreditRoutes = require("./src/routes/getDebitCreditRoutes");
 const verifyVPARoute = require('./src/routes/verifyVPARoutes');
@@ -112,7 +112,7 @@ app.use("/rsa-trg", GCPUploadRoutes);
 // RSA admin routes
 app.use("/rsa-trg", addUserRoutes);
 app.use("/rsa-trg", transactionRoutes);
-app.use("/rsa-trg", serviceList);
+// app.use("/rsa-trg", serviceList);
 
 // RSA user routes
 app.use("/rsa-trg", debitRoutes);

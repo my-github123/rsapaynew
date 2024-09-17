@@ -24,10 +24,7 @@ const DebitList = sequelize.define("rsa_debit_list", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  serviceType: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+
   upiId: {
     type: DataTypes.STRING,
     allowNull: false,
