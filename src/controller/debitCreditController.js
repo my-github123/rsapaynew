@@ -14,7 +14,7 @@ exports.getTransactionData = async (req, res) => {
     // Fetch data from both models
     const transactions = await Transaction.findAll({
       where: { adminId, userId },
-      order: [["transactionTime", "DESC"]], // Order transactions by transactionTime in descending order
+      order: [["id", "DESC"]], // Order transactions by transactionTime in descending order
     });
 
     const userDetails = await GetUsers.findOne({
@@ -24,7 +24,7 @@ exports.getTransactionData = async (req, res) => {
     });
 
     const debits = await DebitList.findAll({ where: { adminId, userId },
-      order: [["transactionTime", "DESC"]], // Order debits by userId in descending order
+      order: [["id", "DESC"]], // Order debits by userId in descending order
      });
 
    const currentDate = new Date();
