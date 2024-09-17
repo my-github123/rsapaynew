@@ -1,6 +1,7 @@
 const Transaction = require("../model/TransactionModel");
 const DebitList = require("../model/debitModel");
 const GetUsers = require("../model/AddUsers");
+const moment = require("moment"); // Use moment for date comparison
 
 exports.getTransactionData = async (req, res) => {
   try {
@@ -27,20 +28,17 @@ exports.getTransactionData = async (req, res) => {
       order: [["id", "DESC"]], // Order debits by userId in descending order
      });
 
-   const currentDate ="2024-09-31";
 
-// Check if userDetails and expDate exist
-if (userDetails && userDetails.expDate) {
-  const expiryDate = new Date(userDetails.expDate); // Convert expDate to a Date object
+const currentDate = moment().toISOString();
 
-  // If the exp date is greater than currentDate, update the amount to 0
-  
-  if (currentDate >expiryDate) {
-    userDetails.amount = 0;
-    userDetails.expiry=true;
+// Check if currentDate is greater than expDate
+if (userDetails) {
+  if (currentDate > userDetails.expDate) {
+    userDetails.amount = 0; // Set amount to zero
+    userDetails.expiry = true; // Set expiry to true
   }
   else {
-    userDetails.expiry=false;
+    userDetails.expiry = false; // Set expiry to true
   }
 }
 
