@@ -93,11 +93,11 @@ exports.getUsers = async (req, res) => {
         where: {
           adminId: adminId,
         },
-      //  order: [["createdAt", "DESC"]], // Order by createdAt in descending order
+        order: [["userId", "DESC"]], // Order by userId in descending order
       });
     } else {
       users = await User.findAll({
-       // order: [["createdAt", "DESC"]], // Order by createdAt in descending order
+        order: [["userId", "DESC"]], // Order by userId in descending order
       });
     }
 
@@ -120,3 +120,33 @@ exports.deleteAllUsers = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.query; // Assuming the userId is passed as a URL parameter
+
+    // Check if userId is provided and valid
+    if (!userId || isNaN(userId)) {
+      return res.status(400).json({ message: "Invalid userId" });
+    }
+
+    // Delete the user with the given userId
+    const deletedUser = await User.destroy({
+      where: {
+        userId: userId, // Only delete the user with the specific userId
+      },
+    });
+
+    if (deletedUser) {
+      res.status(200).json({ message: `User with userId ${userId} deleted successfully` });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+

@@ -80,9 +80,21 @@ exports.createTransaction = async (req, res) => {
     //   }
     // });
 
-    const transactionTime = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Kolkata",
-    });
+
+    const options = { timeZone: "Asia/Kolkata" };
+    const now = new Date().toLocaleString("en-US", options);
+    
+    // Create a new Date object based on the formatted string
+    const transactionTime = new Date(now);
+
+
+    let hours = transactionTime.getHours();
+    const minutes = transactionTime.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert to 12-hour format, adjust midnight and noon
+    
+    // Format the date and time string
+    const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
 
     const newTransaction = await Transaction.create({
       adminId,
@@ -100,7 +112,7 @@ exports.createTransaction = async (req, res) => {
       reason,
       typePayee,
       statusDescription,
-      transactionTime,
+      transactionTime:formattedDate,
     });
 
     const user = await addUsers.findOne({ where: { adminId, userId } });
