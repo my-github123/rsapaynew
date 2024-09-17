@@ -37,6 +37,10 @@ const upload = multer({
 // Route for transaction creation with image upload
 router.post("/rsaAddDebit", upload.single('image'), debitController.createTransaction);
 
+// DELETE API route
+router.delete('/transaction/:id', debitController.deleteTransaction);
+
+
 router.get("/rsaGetDebit", debitController.getTransactionByUserAndAdmin);
 
 router.delete("/rsaDeleteAllDebit", debitController.deleteAllDebit);
