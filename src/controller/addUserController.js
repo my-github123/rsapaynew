@@ -26,7 +26,7 @@ exports.addUser = async (req, res) => {
 
        if (existingUser) {
          // If the username already exists, send a response to the client
-         return res.status(409).json({ message: "EmpId already exists" });
+         return res.status(200).json({ message: "EmpId already exists",status:false });
        }
 
     const newUser = await User.create({
@@ -43,7 +43,7 @@ exports.addUser = async (req, res) => {
       expiry,
       location,
     });
-    res.status(201).json({ messege: "Added Successfully" });
+    res.status(201).json({ messege: "Added Successfully",status:true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
