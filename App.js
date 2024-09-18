@@ -123,7 +123,7 @@ app.use("/rsa-trg", ipRoutes);
 
 
 app.get("/gettingPort",(req,res)=>{
-  res.json("4300...")
+  res.json("4444440...")
 })
 
 app.get("/",(req,res)=>{
