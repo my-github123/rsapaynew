@@ -31,29 +31,31 @@ exports.addTransaction = async (req, res) => {
     // Generate a 6-digit random number
     const transactionId = Math.floor(100000 + Math.random() * 900000);
 
-    const transactionTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+ // Get the current date and time in Asia/Kolkata timezone
+const options = { timeZone: "Asia/Kolkata" };
 
+// Get the current date in the specified timezone
+const transactionTime = new Date().toLocaleString("en-US", options);
 
-    
-    const options = { timeZone: "Asia/Kolkata" };
-    const now = new Date().toLocaleString("en-US", options);
+// Create a new Date object from the formatted string
+const dateObject = new Date(transactionTime);
 
-    // // Create a new Date object based on the formatted string
-    // const transactionTime = new Date(now);
+// Get the individual parts of the date
+const day = dateObject.getDate();
+const month = dateObject.toLocaleString('en-US', { month: 'short', timeZone: 'Asia/Kolkata' }).toUpperCase(); // Short month (SEP)
+const year = dateObject.getFullYear();
 
-    // Get the individual parts of the date
-    const day = transactionTime.getDate();
-    const month = transactionTime.toLocaleString('en-US', { month: 'short' }).toUpperCase(); // Short month (SEP)
-    const year = transactionTime.getFullYear();
+// Get the time parts
+let hours = dateObject.getHours();
+const minutes = dateObject.getMinutes().toString().padStart(2, '0');
+const ampm = hours >= 12 ? 'PM' : 'AM';
+hours = hours % 12 || 12; // Convert to 12-hour format, adjust midnight and noon
 
-    // Get the time parts
-    let hours = transactionTime.getHours();
-    const minutes = transactionTime.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12; // Convert to 12-hour format, adjust midnight and noon
+// Format the date and time string
+const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
 
-    // Format the date and time string
-    const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
+// Output the formatted date
+console.log(formattedDate);
 
     // Add a new transaction
     const newTransaction = await Transaction.create({
