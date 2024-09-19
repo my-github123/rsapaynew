@@ -38,13 +38,23 @@ exports.loginUser = async (req, res) => {
     } else {
       // If not found in the User model, attempt to find by empId in the getUsers model
       const getUser = await getUsers.findOne({ where: { empId: username } });
+      if (getUser) {
+      if (getUser.flag === 1) {
+        return res.status(403).json({
+          error: "User already logged in from another device.",
+        });
+      }
+
+  
 
       if (getUser && getUser.password === password) {
         authenticatedUser = getUser;
+       
+        await getUser.update({ flag:1 });
         
       }
     }
-
+  }
     // If no user found, return error
     if (!authenticatedUser) {
       return res.status(401).json({ error: "Invalid username or password" });
@@ -479,7 +489,7 @@ exports.logout = async (req, res) => {
       }
 
       // Update the flag to 1 in rsa_users table
-      await rsaUser.update({ flag: 1 });
+      await rsaUser.update({ flag:0 });
 
       return res.status(200).json({ message: "Logout successful, flag updated in RSA Users table" });
     } else {
@@ -490,8 +500,8 @@ exports.logout = async (req, res) => {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Update the flag to 1 in user table
-      await user.update({ flag: 1 });
+      // Update the flag to 0 in user table
+      await user.update({ flag:0});
 
       return res.status(200).json({ message: "Logout successful, flag updated in User table" });
     }

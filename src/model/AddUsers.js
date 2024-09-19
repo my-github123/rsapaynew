@@ -23,7 +23,7 @@ const User = sequelize.define("rsa_users", {
   flag: {
     type: DataTypes.INTEGER, // Correctly specifying the type
     allowNull: false,
-    defaultValue: 0, // Set a default value to avoid NULL
+    defaultValue:0, // Set a default value to avoid NULL
   },
 }, {
   timestamps: false, // Disable automatic timestamps

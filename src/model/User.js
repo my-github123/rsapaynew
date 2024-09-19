@@ -84,6 +84,7 @@ const User = sequelize.define("user", {
   flag:{
     type: DataTypes.INTEGER,
     allowNull: false,
+    
   }
 }, {
   timestamps: false, // Disable automatic timestamps
