@@ -41,7 +41,7 @@ exports.loginUser = async (req, res) => {
       if (getUser) {
       if (getUser.flag === 1) {
         return res.status(200).json({
-          messege: "User already logged in from another device.",success:false
+          message: "User already logged in from another device.",success:false
         });
       }
 
