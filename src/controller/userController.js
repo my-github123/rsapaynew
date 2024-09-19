@@ -40,8 +40,8 @@ exports.loginUser = async (req, res) => {
       const getUser = await getUsers.findOne({ where: { empId: username } });
       if (getUser) {
       if (getUser.flag === 1) {
-        return res.status(403).json({
-          error: "User already logged in from another device.",
+        return res.status(200).json({
+          messege: "User already logged in from another device.",success:false
         });
       }
 
@@ -74,6 +74,7 @@ exports.loginUser = async (req, res) => {
       message: "Login successful",
       token,
       user: authenticatedUser,
+      success:true
     });
   } catch (error) {
     console.error("Error from userController:", error.message);
@@ -503,7 +504,7 @@ exports.logout = async (req, res) => {
       // Update the flag to 0 in user table
       await user.update({ flag:0});
 
-      return res.status(200).json({ message: "Logout successful, flag updated in User table" });
+      return res.status(200).json({ message: "Logout successful, flag updated in User table",success:true });
     }
   } catch (err) {
     res.status(500).send(err.message);
