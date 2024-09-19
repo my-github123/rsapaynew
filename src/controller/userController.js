@@ -41,6 +41,7 @@ exports.loginUser = async (req, res) => {
 
       if (getUser && getUser.password === password) {
         authenticatedUser = getUser;
+        
       }
     }
 
@@ -456,6 +457,44 @@ exports.userDetailsExport = async (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=users.xlsx');
     res.send(buffer);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+
+exports.logout = async (req, res) => {
+  try {
+    const { username, userId, role } = req.body;
+
+    // Check if role is 'user'
+    if (role === "user") {
+      // Find the corresponding entry in rsa_users table
+      const rsaUser = await rsaUsers.findOne({
+        where: { empId:username, userId }
+      });
+
+      if (!rsaUser) {
+        return res.status(404).json({ message: "RSA User not found" });
+      }
+
+      // Update the flag to 1 in rsa_users table
+      await rsaUser.update({ flag: 1 });
+
+      return res.status(200).json({ message: "Logout successful, flag updated in RSA Users table" });
+    } else {
+      // Find the user in user table
+      const user = await User.findOne({where: { username, userId } });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Update the flag to 1 in user table
+      await user.update({ flag: 1 });
+
+      return res.status(200).json({ message: "Logout successful, flag updated in User table" });
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }

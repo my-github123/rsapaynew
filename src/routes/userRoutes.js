@@ -12,7 +12,8 @@ router.get("/getUsers", userController.getAllUsers);
 router.get("/getRsaUsers",userContoller.getRsaUsers)
 router.post("/getUserByRole", userController.loginUserByRole);
 router.put("/users/:userId", userController.resetPassword);
-router.get("/userExcelExport", userController.userDetailsExport)
+router.get("/userExcelExport", userController.userDetailsExport);
+router.post('/logout',userController.logout)
 
 
 // router.post("/mapVideos", userController.mapVideoToGarage);

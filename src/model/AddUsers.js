@@ -17,11 +17,14 @@ const User = sequelize.define("rsa_users", {
   expDate: DataTypes.DATE,
   role: DataTypes.STRING,
   isActive: DataTypes.BOOLEAN,
-  expiry:DataTypes.BOOLEAN,
+  expiry: DataTypes.BOOLEAN,
   phoneNumber: DataTypes.STRING,
   location: DataTypes.STRING,
-  
- 
+  flag: {
+    type: DataTypes.INTEGER, // Correctly specifying the type
+    allowNull: false,
+    defaultValue: 0, // Set a default value to avoid NULL
+  },
 }, {
   timestamps: false, // Disable automatic timestamps
 });

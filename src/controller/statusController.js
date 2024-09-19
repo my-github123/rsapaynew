@@ -85,11 +85,7 @@ const getStatus = async (req, res) => {
       passphrase: passphrase,
     });
 
-   
-
-   
-    
-    const apiBody = {
+   const apiBody = {
       GetStatusRequest: {
         SubHeader,
         GetStatusRequestBodyEncrypted: encryptedBody,
